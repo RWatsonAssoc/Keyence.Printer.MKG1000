@@ -28,17 +28,17 @@ public static class ExpirationPeriod
     public static ExpirationPeriodParameters CreateParametersFromResponseString(string rawResponseString)
     {
         string[] split = rawResponseString.Split(',');
-        
+
         return new ExpirationPeriodParameters(
-            ProgramNumber: int.Parse(split[2]),
-            ExpirationPeriodNumber: int.Parse(split[3]),
-            Year: int.Parse(split[4]),
-            Month: int.Parse(split[5]),
-            Day: int.Parse(split[6]),
-            Hour: int.Parse(split[7]),
-            Minute: int.Parse(split[8]));
+            ProgramNumber: int.Parse(split[1]),
+            ExpirationPeriodNumber: int.Parse(split[2]),
+            Year: int.Parse(split[3]),
+            Month: int.Parse(split[4]),
+            Day: int.Parse(split[5]),
+            Hour: int.Parse(split[6]),
+            Minute: int.Parse(split[7]));
     }
-    
+
     public static ExpirationPeriodParameters CreateParameters(
         int programNumber,
         int expirationPeriodNumber,

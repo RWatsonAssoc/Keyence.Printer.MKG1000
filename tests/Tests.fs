@@ -17,6 +17,16 @@ let private ipString = "172.16.16.52"
 
 [<Tests>]
 let tests =
+    testSequencedGroup "Avoid System.Net.Sockets.SocketException" <| testList "tests" [
+        testCase "Resetting errors" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, _) =
+                Commands.ResetErrors(connection)
+            Expect.isTrue (not <| System.String.IsNullOrWhiteSpace(response)) "Reset Errors"
+    ]
+
+[<Tests>]
+let requestingTests =
     testSequencedGroup "Avoid System.Net.Sockets.SocketException" <| testList "Requesting tests" [
         testCase "Requesting the error status" <| fun _ ->
             let connection = EthernetConnection(ipString)
@@ -108,4 +118,10 @@ let tests =
                 let errorResponse = error.Value
                 printfn $"%s{errorResponse.ErrorString}"
             Expect.isFalse parameters.HasValue (getOutputString parameters error)
+
+        ptestCase "Requesting the expiration period" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, error) =
+                Commands.RequestExpirationPeriod(connection, 0, 0)
+            Expect.isTrue parameters.HasValue (getOutputString parameters error)
     ]
