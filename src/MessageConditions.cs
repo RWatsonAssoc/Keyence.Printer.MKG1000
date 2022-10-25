@@ -82,21 +82,21 @@ public static class MessageConditions
     public static MessageConditionsParameters CreateParametersFromResponseString(string rawResponseString)
     {
         string[] split = rawResponseString.Split(',');
-        
+
         return new MessageConditionsParameters(
-            ProgramNumber: int.Parse(split[2]),
-            MessageNumber: int.Parse(split[3]),
-            LateralScaling: int.Parse(split[4]),
-            FontNumber: (FontNumber)Enum.Parse(typeof(FontNumber), split[5]),
-            BaseX: int.Parse(split[6]),
-            BaseY: int.Parse(split[7]),
-            CharacterSpacing: int.Parse(split[8]),
-            LineSpacing: int.Parse(split[9]),
-            Print: (Print)Enum.Parse(typeof(Print), split[10]),
-            PrintAngle: (PrintAngle)Enum.Parse(typeof(PrintAngle), split[11]),
-            Lock: (Lock)Enum.Parse(typeof(Lock), split[12]));
+            ProgramNumber: int.Parse(split[1]),
+            MessageNumber: int.Parse(split[2]),
+            LateralScaling: int.Parse(split[3]),
+            FontNumber: (FontNumber)Enum.Parse(typeof(FontNumber), split[4]),
+            BaseX: int.Parse(split[5]),
+            BaseY: int.Parse(split[6]),
+            CharacterSpacing: int.Parse(split[7]),
+            LineSpacing: int.Parse(split[8]),
+            Print: (Print)Enum.Parse(typeof(Print), split[9]),
+            PrintAngle: (PrintAngle)Enum.Parse(typeof(PrintAngle), split[10]),
+            Lock: (Lock)Enum.Parse(typeof(Lock), split[11]));
     }
-    
+
     public static MessageConditionsParameters CreateParameters(
         int programNumber,
         int messageNumber,
@@ -117,7 +117,7 @@ public static class MessageConditions
         int _baseY;
         int _characterSpacing;
         int _lineSpacing;
-        
+
         if (programNumber is >= 1 and <= 500)
         {
             _programNumber = programNumber;
