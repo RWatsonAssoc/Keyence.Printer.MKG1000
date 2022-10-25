@@ -148,4 +148,16 @@ let requestingTests =
             let struct (programNumber, error) =
                 Commands.RequestCurrentProgramNumber(connection)
             Expect.isTrue programNumber.HasValue (getOutputString programNumber error)
+
+        testCase "Requesting the group printing number" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (groupNumber, error) =
+                Commands.RequestGroupPrintingNumber(connection)
+            Expect.isTrue groupNumber.HasValue (getOutputString groupNumber error)
+
+        testCase "Requesting the communication buffer" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (communicationBuffer, error) =
+                Commands.RequestCommunicationBuffer(connection)
+            Expect.isTrue communicationBuffer.HasValue (getOutputString communicationBuffer error)
     ]

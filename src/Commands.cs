@@ -1517,7 +1517,7 @@ public static class Commands
             case null when result.RawResponseString is { } rawResponseString:
             {
                 string[] split = rawResponseString.Split(',');
-                return (int.Parse(split[2]), null);
+                return (int.Parse(split[1]), null);
             }
             default:
                 return (null, null);
@@ -1543,7 +1543,7 @@ public static class Commands
             case null when result.RawResponseString is { } rawResponseString:
             {
                 string[] split = rawResponseString.Split(',');
-                return ((CommunicationBuffer)Enum.Parse(typeof(CommunicationBuffer), split[2]), null);
+                return ((CommunicationBuffer)Enum.Parse(typeof(CommunicationBuffer), split[1]), null);
             }
             default:
                 return (null, null);
@@ -1578,7 +1578,7 @@ public static class Commands
             case null when result.RawResponseString is { } rawResponseString:
             {
                 string[] split = rawResponseString.Split(',');
-                return ((GuideLedStatus)Enum.Parse(typeof(GuideLedStatus), split[2]), null);
+                return ((GuideLedStatus)Enum.Parse(typeof(GuideLedStatus), split[1]), null);
             }
             default:
                 return (null, null);
@@ -1637,7 +1637,7 @@ public static class Commands
             case null when result.RawResponseString is { } rawResponseString:
             {
                 string[] split = rawResponseString.Split(',');
-                return ((PrintedCounterNumber: int.Parse(split[2]), PrintedCount: int.Parse(split[3])), null);
+                return ((PrintedCounterNumber: int.Parse(split[1]), PrintedCount: int.Parse(split[2])), null);
             }
             default:
                 return (null, null);
