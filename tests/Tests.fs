@@ -17,7 +17,7 @@ let private ipString = "172.16.16.52"
 
 [<Tests>]
 let tests =
-    testSequencedGroup "Avoid System.Net.Sockets.SocketException" <| testList "tests" [
+    testSequencedGroup "Avoid System.Net.Sockets.SocketException" <| testList "Requesting tests" [
         testCase "Requesting the error status" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (errorStatus, _) =
@@ -43,6 +43,17 @@ let tests =
             let connection = EthernetConnection(ipString)
             let struct (parameters, error) =
                 Commands.RequestMessageConditions(connection, 1, 1)
+            Expect.isTrue parameters.HasValue (getOutputString parameters error)
+
+        testCase "Requesting the print character string" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, error) =
+                Commands.RequestPrintCharacterString(
+                    connection,
+                    1,
+                    1,
+                    UpdateCharacterFormat.CharactersToActuallyPrint,
+                    CharacterCode.RequestAtTimeOfSetting)
             Expect.isTrue parameters.HasValue (getOutputString parameters error)
 
         testCase "Requesting the print result" <| fun _ ->
@@ -76,20 +87,15 @@ let tests =
                 Commands.RequestCurrentCounterValue(connection, 0, "A")
             Expect.isTrue parameters.HasValue (getOutputString parameters error)
 
-        testCase "Requesting the print character string" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (parameters, error) =
-                Commands.RequestPrintCharacterString(
-                    connection,
-                    1,
-                    1,
-                    UpdateCharacterFormat.CharactersToActuallyPrint,
-                    CharacterCode.RequestAtTimeOfSetting)
-            Expect.isTrue parameters.HasValue (getOutputString parameters error)
-
         testCase "Requesting the barcode character string" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (parameters, error) =
                 Commands.RequestBarcodeCharacterString(connection, 1, 1)
+            Expect.isTrue parameters.HasValue (getOutputString parameters error)
+
+        testCase "Requesting the barcode conditions" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, error) =
+                Commands.RequestBarcodeConditions(connection, 1, 1)
             Expect.isTrue parameters.HasValue (getOutputString parameters error)
     ]

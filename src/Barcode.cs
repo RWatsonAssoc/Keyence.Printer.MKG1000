@@ -93,17 +93,17 @@ public static class BarcodeConditions
         string[] split = rawResponseString.Split(',');
 
         return new BarcodeConditionsParameters(
-            ProgramNumber: int.Parse(split[2]),
-            BarcodeNumber: int.Parse(split[3]),
-            BarcodeType: StringToBarcodeType(split[4]),
-            PrintType: (PrintType)Enum.Parse(typeof(PrintType), split[5]),
-            BarcodeHeight: int.Parse(split[6]),
-            NarrowBarWidth: int.Parse(split[7]),
-            NarrowSpaceWidth: int.Parse(split[8]),
-            WideBarWidth: int.Parse(split[9]),
-            WideBarSpaceWidth: int.Parse(split[10]),
-            HumanReadable: (HumanReadable)Enum.Parse(typeof(HumanReadable), split[11]),
-            QuietZone: int.Parse(split[12]));
+            ProgramNumber: int.Parse(split[1]),
+            BarcodeNumber: int.Parse(split[2]),
+            BarcodeType: StringToBarcodeType(split[3]),
+            PrintType: (PrintType)Enum.Parse(typeof(PrintType), split[4]),
+            BarcodeHeight: int.Parse(split[5]),
+            NarrowBarWidth: int.Parse(split[6]),
+            NarrowSpaceWidth: int.Parse(split[7]),
+            WideBarWidth: int.Parse(split[8]),
+            WideBarSpaceWidth: int.Parse(split[9]),
+            HumanReadable: (HumanReadable)Enum.Parse(typeof(HumanReadable), split[10]),
+            QuietZone: int.Parse(split[11]));
     }
 
     public static BarcodeConditionsParameters CreateParameters(
