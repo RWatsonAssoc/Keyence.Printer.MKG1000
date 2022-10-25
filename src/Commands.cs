@@ -1481,7 +1481,7 @@ public static class Commands
             case null when result.RawResponseString is { } rawResponseString:
             {
                 string[] split = rawResponseString.Split(',');
-                return (int.Parse(split[2]), null);
+                return (int.Parse(split[1]), null);
             }
             default:
                 return (null, null);

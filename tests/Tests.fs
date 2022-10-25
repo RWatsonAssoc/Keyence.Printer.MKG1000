@@ -126,12 +126,14 @@ let requestingTests =
                 printfn $"%s{errorResponse.ErrorString}"
             Expect.isFalse parameters.HasValue (getOutputString parameters error)
 
+        // ErrorResponse: 22, Data range error, Data out of the setting range was received., Check the data contents, and then send the correct data.
         ptestCase "Requesting the expiration period" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (parameters, error) =
                 Commands.RequestExpirationPeriod(connection, 1, 1)
             Expect.isTrue parameters.HasValue (getOutputString parameters error)
 
+        // ErrorResponse: 22, Data range error, Data out of the setting range was received., Check the data contents, and then send the correct data.
         ptestCase "Requesting the year replacement characters" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (parameters, error) =
@@ -140,4 +142,10 @@ let requestingTests =
                     1,
                     CharacterCode.RequestAtTimeOfSetting)
             Expect.isNotNull parameters (getErrorString error)
+
+        testCase "Requesting the current program number" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (programNumber, error) =
+                Commands.RequestCurrentProgramNumber(connection)
+            Expect.isTrue programNumber.HasValue (getOutputString programNumber error)
     ]
