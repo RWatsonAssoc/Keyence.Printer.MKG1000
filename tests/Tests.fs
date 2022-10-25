@@ -45,6 +45,19 @@ let tests =
                 Commands.RequestMessageConditions(connection, 1, 1)
             Expect.isTrue parameters.HasValue (getOutputString parameters error)
 
+        testCase "Requesting the print result" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, _) =
+                Commands.RequestPrintResult(connection, 1, CharacterCode.Ascii)
+            let output =
+                if response.HasValue then
+                    let struct (_, _, characterStringData) =
+                        response.Value
+                    characterStringData
+                else
+                    System.String.Empty
+            Expect.isTrue response.HasValue output
+
         testCase "Requesting the print character string" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (parameters, error) =

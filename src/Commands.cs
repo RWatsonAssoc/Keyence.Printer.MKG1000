@@ -403,8 +403,7 @@ public static class Commands
         return SendCommand(connection, identificationCode: "FX", parameters);
     }
 
-    public static ((int MessageNumber, CharacterCode CharacterCode, string CharacterStringData)? Response, ErrorResponse
-        ? Error) RequestPrintResult(
+    public static ((int MessageNumber, CharacterCode CharacterCode, string CharacterStringData)? Response, ErrorResponse? Error) RequestPrintResult(
             Connection connection,
             int messageNumber,
             CharacterCode characterCode)
@@ -420,7 +419,14 @@ public static class Commands
             throw new ArgumentException($"Message Number Invalid (1 to 64): {messageNumber}");
         }
 
-        parameters += $", {(int)characterCode}";
+        if (characterCode != CharacterCode.RequestAtTimeOfSetting)
+        {
+            parameters += $",{(int)characterCode}";
+        }
+        else
+        {
+            throw new ArgumentException($"Character Code Invalid (0 to 3, 5): {characterCode}");
+        }
 
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "UZ", parameters);
         switch (result.Error)
@@ -430,7 +436,7 @@ public static class Commands
             case null when result.RawResponseString is { } rawResponseString:
             {
                 string[] split = rawResponseString.Split(',');
-                var response = (int.Parse(split[2]), (CharacterCode)Enum.Parse(typeof(CharacterCode), split[3]), split[4]);
+                var response = (int.Parse(split[1]), (CharacterCode)Enum.Parse(typeof(CharacterCode), split[2]), split[3]);
                 return (response, null);
             }
             default:
