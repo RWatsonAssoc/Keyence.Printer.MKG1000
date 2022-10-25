@@ -78,7 +78,7 @@ public readonly record struct LineSettingsAndPrintAdjustmentParameters(
     EncoderType EncoderType)
 {
     private static int PrintMode => 0;
-    
+
     public string ParameterString =>
         $",{ProgramNumber},{(int)CharacterCode},{Title},{(int)HeadDirection},{(int)TextDirection},{(int)HeadTargetDistance},{(int)PrintMethod},{PrintCountN},{NumberOfEncoderPulses},{LineSpeed},{NormalTriggerDelay},{ReverseTriggerDelay},{MessageInterval},{CharacterHeightAdjustment},{CharacterWidthAdjustment},{IgnoreTriggersLessThan},{TriggerOnTimeLimit},{PrintMode},{(int)EncoderType}";
 }
@@ -88,28 +88,28 @@ public static class LineSettingsAndPrintAdjustment
     public static LineSettingsAndPrintAdjustmentParameters CreateParametersFromResponseString(string rawResponseString)
     {
         string[] split = rawResponseString.Split(',');
-        
+
         return new LineSettingsAndPrintAdjustmentParameters(
-            ProgramNumber: split[2],
-            CharacterCode: (CharacterCode)Enum.Parse(typeof(CharacterCode), split[3]),
-            Title: split[4],
-            HeadDirection: (HeadDirection)Enum.Parse(typeof(HeadDirection), split[5]),
-            TextDirection: (TextDirection)Enum.Parse(typeof(TextDirection), split[6]),
-            HeadTargetDistance: (HeadTargetDistance)Enum.Parse(typeof(HeadTargetDistance), split[7]),
-            PrintMethod: (PrintMethod)Enum.Parse(typeof(PrintMethod), split[8]),
-            PrintCountN: int.Parse(split[9]),
-            NumberOfEncoderPulses: int.Parse(split[10]),
-            LineSpeed: int.Parse(split[11]),
-            NormalTriggerDelay: int.Parse(split[12]),
-            ReverseTriggerDelay: int.Parse(split[13]),
-            MessageInterval: int.Parse(split[14]),
-            CharacterHeightAdjustment: int.Parse(split[15]),
-            CharacterWidthAdjustment: int.Parse(split[16]),
-            IgnoreTriggersLessThan: int.Parse(split[17]),
-            TriggerOnTimeLimit: int.Parse(split[18]),
-            EncoderType: (EncoderType)Enum.Parse(typeof(EncoderType), split[20]));
+            ProgramNumber: split[1],
+            CharacterCode: (CharacterCode)Enum.Parse(typeof(CharacterCode), split[2]),
+            Title: split[3],
+            HeadDirection: (HeadDirection)Enum.Parse(typeof(HeadDirection), split[4]),
+            TextDirection: (TextDirection)Enum.Parse(typeof(TextDirection), split[5]),
+            HeadTargetDistance: (HeadTargetDistance)Enum.Parse(typeof(HeadTargetDistance), split[6]),
+            PrintMethod: (PrintMethod)Enum.Parse(typeof(PrintMethod), split[7]),
+            PrintCountN: int.Parse(split[8]),
+            NumberOfEncoderPulses: int.Parse(split[9]),
+            LineSpeed: int.Parse(split[10]),
+            NormalTriggerDelay: int.Parse(split[11]),
+            ReverseTriggerDelay: int.Parse(split[12]),
+            MessageInterval: int.Parse(split[13]),
+            CharacterHeightAdjustment: int.Parse(split[14]),
+            CharacterWidthAdjustment: int.Parse(split[15]),
+            IgnoreTriggersLessThan: int.Parse(split[16]),
+            TriggerOnTimeLimit: int.Parse(split[17]),
+            EncoderType: (EncoderType)Enum.Parse(typeof(EncoderType), split[18]));
     }
-    
+
     public static LineSettingsAndPrintAdjustmentParameters CreateParameters(
         string programNumber,
         CharacterCode characterCode,
@@ -251,7 +251,7 @@ public static class LineSettingsAndPrintAdjustment
         {
             throw new ArgumentException($"Trigger On Time Limit Invalid (0 to 999): {triggerOnTimeLimit}");
         }
-        
+
         return new LineSettingsAndPrintAdjustmentParameters(
             ProgramNumber: _programNumber,
             CharacterCode: characterCode,

@@ -30,6 +30,15 @@ let tests =
                 Commands.RequestSystemStatus(connection)
             Expect.isTrue systemStatus.HasValue (getOutputString systemStatus error)
 
+        testCase "Requesting the line settings and print adjustmest" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, error) =
+                Commands.RequestLineSettingsAndPrintAdjustment(
+                    connection,
+                    string 1,
+                    CharacterCode.RequestAtTimeOfSetting)
+            Expect.isTrue parameters.HasValue (getOutputString parameters error)
+
         testCase "Requesting the barcode character string" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (parameters, error) =
