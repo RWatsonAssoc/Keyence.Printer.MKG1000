@@ -13,6 +13,13 @@ let private getOutputString (ok : System.Nullable<'a>) (error : System.Nullable<
         else
             "parameters is null, error is null"
 
+let private getErrorString (error : System.Nullable<ErrorResponse>) : string =
+    if error.HasValue then
+        let errorResponse = error.Value
+        $"ErrorResponse: %s{errorResponse.ErrorString}"
+    else
+        "error is null"
+
 let private ipString = "172.16.16.52"
 
 [<Tests>]
@@ -122,6 +129,15 @@ let requestingTests =
         ptestCase "Requesting the expiration period" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (parameters, error) =
-                Commands.RequestExpirationPeriod(connection, 0, 0)
+                Commands.RequestExpirationPeriod(connection, 1, 1)
             Expect.isTrue parameters.HasValue (getOutputString parameters error)
+
+        ptestCase "Requesting the year replacement characters" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, error) =
+                Commands.RequestYearEncodedCharacters(
+                    connection,
+                    1,
+                    CharacterCode.RequestAtTimeOfSetting)
+            Expect.isNotNull parameters (getErrorString error)
     ]

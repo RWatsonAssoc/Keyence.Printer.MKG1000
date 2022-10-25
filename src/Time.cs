@@ -33,16 +33,16 @@ public static class Time
     public static TimeParameters CreateParametersFromResponseString(string rawResponseString)
     {
         string[] split = rawResponseString.Split(',');
-        
+
         return new TimeParameters(
-            Year: int.Parse(split[2]),
-            Month: int.Parse(split[3]),
-            Day: int.Parse(split[4]),
-            Hour: int.Parse(split[5]),
-            Minute: int.Parse(split[6]),
-            Second: int.Parse(split[7]));
+            Year: int.Parse(split[1]),
+            Month: int.Parse(split[2]),
+            Day: int.Parse(split[3]),
+            Hour: int.Parse(split[4]),
+            Minute: int.Parse(split[5]),
+            Second: int.Parse(split[6]));
     }
-    
+
     public static TimeParameters CreateParameters(
         int year,
         int month,

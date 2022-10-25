@@ -168,7 +168,7 @@ public static class EncodedCharacters
             _ => throw new ArgumentException("Invalid enum value for EncodedType", nameof(encodedType))
         };
     }
-    
+
     public static string RequestIdentificationCodeString(EncodedType encodedType)
     {
         return encodedType switch
@@ -186,7 +186,7 @@ public static class EncodedCharacters
             _ => throw new ArgumentException("Invalid enum value for EncodedType", nameof(encodedType))
         };
     }
-    
+
     public static string EncodedTypeToString(EncodedType encodedType)
     {
         return encodedType switch
@@ -224,7 +224,7 @@ public static class EncodedCharacters
             _ => throw new ArgumentException("Invalid string for EncodedType", nameof(s))
         };
     }
-    
+
     public static EncodedCharactersParameters CreateEncodedParametersFromResponseString(string rawResponseString, EncodedType encodedType)
     {
         string[] split = rawResponseString.Split(',');
@@ -232,40 +232,40 @@ public static class EncodedCharacters
         if (encodedType == EncodedType.ShiftCode)
         {
             (int startTime, string encodedCharacterString)[] division =
-                new (int startTime, string encodedCharacterString)[split.Length - 5];
-            
+                new (int startTime, string encodedCharacterString)[split.Length - 4];
+
             for (int i = 0; i < division.Length - 1; i++)
             {
-                int startTimeIdx = i + 5;
-                int encodedCharacterStringIdx = i + 6;
+                int startTimeIdx = i + 4;
+                int encodedCharacterStringIdx = startTimeIdx + 1;
                 division[i] = (int.Parse(split[startTimeIdx]), split[encodedCharacterStringIdx]);
                 i++;
             }
-            
+
             return CreateEncodedCharactersParameters(
-                int.Parse(split[2]),
-                (CharacterCode)Enum.Parse(typeof(CharacterCode), split[3]),
-                int.Parse(split[4]),
+                int.Parse(split[1]),
+                (CharacterCode)Enum.Parse(typeof(CharacterCode), split[2]),
+                int.Parse(split[3]),
                 division);
         }
         else
         {
-            string[] encodedCharacterStrings = new string[split.Length - 5];
+            string[] encodedCharacterStrings = new string[split.Length - 4];
 
-            for (int i = 0; i < split.Length - 5; i++)
+            for (int i = 0; i < encodedCharacterStrings.Length - 1; i++)
             {
-                encodedCharacterStrings[i] = split[i + 5];
+                encodedCharacterStrings[i] = split[i + 4];
             }
-        
+
             return CreateEncodedCharactersParameters(
                 encodedType,
-                int.Parse(split[2]),
-                (CharacterCode)Enum.Parse(typeof(CharacterCode), split[3]),
-                int.Parse(split[4]),
+                int.Parse(split[1]),
+                (CharacterCode)Enum.Parse(typeof(CharacterCode), split[2]),
+                int.Parse(split[3]),
                 encodedCharacterStrings);
         }
     }
-    
+
     public static EncodedCharactersParameters CreateEncodedCharactersParameters(
         int encodedCharacters,
         CharacterCode characterCode,
@@ -400,7 +400,7 @@ public static class EncodedCharacters
             throw new AggregateException($"ValidateEncodedCharactersParameters Failed");
         }
     }
-    
+
     private static bool ValidateEncodedCharactersParameters(
         int encodedCharacters,
         int numberOfCharactersToReplace,
