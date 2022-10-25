@@ -113,15 +113,15 @@ public static class TwoDCodeConditions
         var split = rawResponseString.Split(',');
 
         return new TwoDCodeConditionsParameters(
+            int.Parse(split[1]),
             int.Parse(split[2]),
-            int.Parse(split[3]),
-            StringToTwoDCodeType(split[4]),
-            (PrintType)Enum.Parse(typeof(PrintType), split[5]),
-            (SymbolSize)Enum.Parse(typeof(SymbolSize), split[6]),
-            int.Parse(split[7]),
-            (ErrorCorrectionLevelOr06Macro)Enum.Parse(typeof(ErrorCorrectionLevelOr06Macro), split[8]),
-            (PasswordOnOff)Enum.Parse(typeof(PasswordOnOff), split[9]),
-            int.Parse(split[10]));
+            StringToTwoDCodeType(split[3]),
+            (PrintType)Enum.Parse(typeof(PrintType), split[4]),
+            (SymbolSize)Enum.Parse(typeof(SymbolSize), split[5]),
+            int.Parse(split[6]),
+            (ErrorCorrectionLevelOr06Macro)Enum.Parse(typeof(ErrorCorrectionLevelOr06Macro), split[7]),
+            (PasswordOnOff)Enum.Parse(typeof(PasswordOnOff), split[8]),
+            int.Parse(split[9]));
     }
 
     public static TwoDCodeConditionsParameters CreateParameters(

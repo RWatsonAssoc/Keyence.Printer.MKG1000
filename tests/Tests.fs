@@ -9,7 +9,7 @@ let private getOutputString (ok : System.Nullable<'a>) (error : System.Nullable<
     else
         if error.HasValue then
             let errorResponse = error.Value
-            errorResponse.ErrorString
+            $"ErrorResponse: %s{errorResponse.ErrorString}"
         else
             "parameters is null, error is null"
 
@@ -98,4 +98,14 @@ let tests =
             let struct (parameters, error) =
                 Commands.RequestBarcodeConditions(connection, 1, 1)
             Expect.isTrue parameters.HasValue (getOutputString parameters error)
+
+        // ErrorResponse: 22, Data range error, Data out of the setting range was received., Check the data contents, and then send the correct data.
+        ptestCase "Requesting the 2D code conditions" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, error) =
+                Commands.RequestTwoDCodeConditions(connection, 1, 1)
+            if error.HasValue then
+                let errorResponse = error.Value
+                printfn $"%s{errorResponse.ErrorString}"
+            Expect.isFalse parameters.HasValue (getOutputString parameters error)
     ]
