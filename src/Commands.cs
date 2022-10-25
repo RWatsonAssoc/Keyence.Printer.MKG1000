@@ -469,21 +469,21 @@ public static class Commands
 
     public static (CounterConditionsParameters? Parameters, ErrorResponse? Error) RequestCounterConditions(
         Connection connection,
-        string programNumber,
+        int programNumber,
         string counterNumber)
     {
         string parameters = "";
 
-        if (programNumber == "ALL" || (int.Parse(programNumber) >= 0 && int.Parse(programNumber) <= 500))
+        if (programNumber is >= 0 and <= 500)
         {
             parameters += $",{programNumber}";
         }
         else
         {
-            throw new ArgumentException($"Program Number is Invalid (0, 1 to 500, ALL)");
+            throw new ArgumentException($"Program Number is Invalid (0, 1 to 500)");
         }
 
-        if (counterNumber is "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I" or "J" or "L"
+        if (counterNumber is "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I" or "J"
             || (int.Parse(counterNumber) >= 1 && int.Parse(counterNumber) <= 9))
         {
             parameters += $",{counterNumber}";
@@ -531,7 +531,7 @@ public static class Commands
         }
         else
         {
-            throw new ArgumentException($"Counter Number is Invalid (1 to 9, A to J): {counterNumber}");
+            throw new ArgumentException($"Counter Number is Invalid (1 to 9, A to J, L): {counterNumber}");
         }
 
         return SendCommand(connection, identificationCode: "CZ", parameters);

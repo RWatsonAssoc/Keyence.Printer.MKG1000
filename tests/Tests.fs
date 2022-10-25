@@ -58,6 +58,12 @@ let tests =
                     System.String.Empty
             Expect.isTrue response.HasValue output
 
+        testCase "Requesting the counter conditions" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, error) =
+                Commands.RequestCounterConditions(connection, 0, "A")
+            Expect.isTrue parameters.HasValue (getOutputString parameters error)
+
         testCase "Requesting the print character string" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (parameters, error) =

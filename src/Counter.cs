@@ -62,13 +62,13 @@ public static class CounterCurrentValue
     public static CounterCurrentValueParameters CreateParametersFromResponseString(string rawResponseString)
     {
         string[] split = rawResponseString.Split(',');
-        
+
         return new CounterCurrentValueParameters(
             ProgramNumber: int.Parse(split[2]),
             CounterNumber: split[3],
             CurrentCounterValue: uint.Parse(split[4]));
     }
-    
+
     public static CounterCurrentValueParameters CreateParameters(
         int programNumber,
         string counterNumber,
@@ -76,7 +76,7 @@ public static class CounterCurrentValue
     {
         int _programNumber;
         string _counterNumber;
-        
+
         if (programNumber is >= 0 and <= 500)
         {
             _programNumber = programNumber;
@@ -85,7 +85,7 @@ public static class CounterCurrentValue
         {
             throw new ArgumentException($"Program Number is Invalid (0, 1 to 500): {programNumber}");
         }
-        
+
         if (counterNumber is "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I" or "J" or "L"
             || (int.Parse(counterNumber) >= 1 && int.Parse(counterNumber) <= 9))
         {
@@ -108,13 +108,13 @@ public static class CounterCurrentRepeatCount
     public static CounterCurrentRepeatCountParameters CreateParametersFromResponseString(string rawResponseString)
     {
         string[] split = rawResponseString.Split(',');
-        
+
         return new CounterCurrentRepeatCountParameters(
             ProgramNumber: int.Parse(split[2]),
             CounterNumber: split[3],
             CurrentRepeatCountValue: uint.Parse(split[4]));
     }
-    
+
     public static CounterCurrentRepeatCountParameters CreateParameters(
         int programNumber,
         string counterNumber,
@@ -122,7 +122,7 @@ public static class CounterCurrentRepeatCount
     {
         int _programNumber;
         string _counterNumber;
-        
+
         if (programNumber is >= 0 and <= 500)
         {
             _programNumber = programNumber;
@@ -131,7 +131,7 @@ public static class CounterCurrentRepeatCount
         {
             throw new ArgumentException($"Program Number is Invalid (0, 1 to 500): {programNumber}");
         }
-        
+
         if (counterNumber is "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I" or "J" or "L"
             || (int.Parse(counterNumber) >= 1 && int.Parse(counterNumber) <= 9))
         {
@@ -154,21 +154,21 @@ public static class CounterConditions
     public static CounterConditionsParameters CreateParametersFromResponseString(string rawResponseString)
     {
         string[] split = rawResponseString.Split(',');
-        
+
         return new CounterConditionsParameters(
-            ProgramNumber: split[2],
-            CounterNumber: split[3],
-            NumberOfDigits: int.Parse(split[4]),
-            NumberSystem: int.Parse(split[5]),
-            InitialValue: uint.Parse(split[6]),
-            FinalValue: uint.Parse(split[7]),
-            InitialValueFromSecondCycle: uint.Parse(split[8]),
-            Step: int.Parse(split[9]),
-            NumberOfRepetitions: uint.Parse(split[10]),
-            CountTiming: (CountTiming)Enum.Parse(typeof(CountTiming), split[11]),
-            ResetTiming: (ResetTiming)Enum.Parse(typeof(ResetTiming), split[12]));
+            ProgramNumber: split[1],
+            CounterNumber: split[2],
+            NumberOfDigits: int.Parse(split[3]),
+            NumberSystem: int.Parse(split[4]),
+            InitialValue: uint.Parse(split[5]),
+            FinalValue: uint.Parse(split[6]),
+            InitialValueFromSecondCycle: uint.Parse(split[7]),
+            Step: int.Parse(split[8]),
+            NumberOfRepetitions: uint.Parse(split[9]),
+            CountTiming: (CountTiming)Enum.Parse(typeof(CountTiming), split[10]),
+            ResetTiming: (ResetTiming)Enum.Parse(typeof(ResetTiming), split[11]));
     }
-    
+
     public static CounterConditionsParameters CreateParameters(
         string programNumber,
         string counterNumber,
@@ -196,7 +196,7 @@ public static class CounterConditions
         {
             throw new ArgumentException($"Program Number is Invalid (0, 1 to 500, ALL)");
         }
-        
+
         if (counterNumber is "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I" or "J" or "L"
             || (int.Parse(counterNumber) >= 1 && int.Parse(counterNumber) <= 9))
         {
