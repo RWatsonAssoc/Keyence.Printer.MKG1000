@@ -91,7 +91,7 @@ public static class Commands
             CharacterCode characterCode)
     {
         string parameters = "";
-        
+
         if (programNumber == "CMN" || (int.Parse(programNumber) >= 1 && int.Parse(programNumber) <= 500))
         {
             parameters += $",{programNumber}";
@@ -100,7 +100,7 @@ public static class Commands
         {
             throw new ArgumentException($"Program Number Invalid: {programNumber}");
         }
-        
+
         parameters += $",{((int)characterCode).ToString()}";
 
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "FL",
@@ -124,7 +124,7 @@ public static class Commands
         string settingNumber)
     {
         string parameters = "";
-        
+
         if (settingNumber is "ALL" or "CMN" ||
             (int.Parse(settingNumber) >= 1 && int.Parse(settingNumber) <= 500))
         {
@@ -148,7 +148,7 @@ public static class Commands
         int messageNumber)
     {
         string parameters = "";
-        
+
         if (programNumber is >= 1 and <= 500)
         {
             parameters += $",{programNumber}";
@@ -166,7 +166,7 @@ public static class Commands
         {
             throw new ArgumentException($"Message Number Invalid (1 to 64): {messageNumber}");
         }
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "F6", parameters);
         switch (result.Error)
         {
@@ -206,7 +206,7 @@ public static class Commands
         {
             throw new ArgumentException($"Message Number Invalid (1 to 64, AL): {messageNumber}");
         }
-        
+
         return SendCommand(connection, identificationCode: "FY", parameters);
     }
 
@@ -323,7 +323,7 @@ public static class Commands
                         $"Character String Data Invalid (999 characters): {processedCharacters}");
                 }
             }
-            
+
             return SendCommand(connection, identificationCode: "H2", parameters);
         }
         else
@@ -355,7 +355,7 @@ public static class Commands
             case CharacterCode.Ascii or CharacterCode.Latin9 when
                 characterStringData.Length <= 240:
             case CharacterCode.Utf8 when characterStringData.Length <= 80:
-            case CharacterCode.Gb2312 or CharacterCode.Shiftjis when characterStringData.Length <= 120: 
+            case CharacterCode.Gb2312 or CharacterCode.Shiftjis when characterStringData.Length <= 120:
                 parameters += $",{(int)characterCode},{characterStringData}";
                 break;
             default:
@@ -414,7 +414,7 @@ public static class Commands
         }
 
         parameters += $", {(int)characterCode}";
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "UZ", parameters);
         switch (result.Error)
         {
@@ -436,7 +436,7 @@ public static class Commands
         string programNumber)
     {
         string parameters = "";
-        
+
         if (programNumber == "ALL" || int.Parse(programNumber) >= 1 && int.Parse(programNumber) <= 500)
         {
             parameters += $",{programNumber}";
@@ -460,7 +460,7 @@ public static class Commands
         string counterNumber)
     {
         string parameters = "";
-        
+
         if (programNumber == "ALL" || (int.Parse(programNumber) >= 0 && int.Parse(programNumber) <= 500))
         {
             parameters += $",{programNumber}";
@@ -469,7 +469,7 @@ public static class Commands
         {
             throw new ArgumentException($"Program Number is Invalid (0, 1 to 500, ALL)");
         }
-        
+
         if (counterNumber is "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I" or "J" or "L"
             || (int.Parse(counterNumber) >= 1 && int.Parse(counterNumber) <= 9))
         {
@@ -479,7 +479,7 @@ public static class Commands
         {
             throw new ArgumentException($"Counter Number is Invalid (1 to 9, A to J): {counterNumber}");
         }
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "CP", parameters);
         switch (result.Error)
         {
@@ -545,7 +545,7 @@ public static class Commands
         {
             throw new ArgumentException($"Program Number is Invalid (0, 1 to 500): {programNumber}");
         }
-        
+
         if (counterNumber is "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I" or "J" or "L"
             || (int.Parse(counterNumber) >= 1 && int.Parse(counterNumber) <= 9))
         {
@@ -577,7 +577,7 @@ public static class Commands
         {
             throw new ArgumentException($"Program Number is Invalid (0, 1 to 500): {programNumber}");
         }
-        
+
         if (counterNumber is "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I" or "J" or "L"
             || (int.Parse(counterNumber) >= 1 && int.Parse(counterNumber) <= 9))
         {
@@ -587,7 +587,7 @@ public static class Commands
         {
             throw new ArgumentException($"Counter Number is Invalid (1 to 9, A to J): {counterNumber}");
         }
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "CR", parameters);
         switch (result.Error)
         {
@@ -618,7 +618,7 @@ public static class Commands
         {
             throw new ArgumentException($"Program Number is Invalid (0, 1 to 500): {programNumber}");
         }
-        
+
         if (counterNumber is "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I" or "J" or "L"
             || (int.Parse(counterNumber) >= 1 && int.Parse(counterNumber) <= 9))
         {
@@ -631,12 +631,12 @@ public static class Commands
 
         return SendCommand(connection, identificationCode: "DS", parameters);
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetCurrenCounterValue(
         Connection connection,
         CounterCurrentValueParameters parameters) =>
         SendCommand(connection, identificationCode: "CM", parameters.ParameterString);
-    
+
     public static (string? Response, ErrorResponse? Error) SetCurrenCounterValue(
         Connection connection,
         int programNumber,
@@ -653,7 +653,7 @@ public static class Commands
         {
             throw new ArgumentException($"Program Number is Invalid (0, 1 to 500): {programNumber}");
         }
-        
+
         if (counterNumber is "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I" or "J" or "L"
             || (int.Parse(counterNumber) >= 1 && int.Parse(counterNumber) <= 9))
         {
@@ -668,7 +668,7 @@ public static class Commands
 
         return SendCommand(connection, identificationCode: "CM", parameters);
     }
-    
+
     public static (CounterCurrentValueParameters? Parameters, ErrorResponse? Error)
         RequestCurrentCounterValue(
             Connection connection,
@@ -685,7 +685,7 @@ public static class Commands
         {
             throw new ArgumentException($"Program Number is Invalid (0, 1 to 500): {programNumber}");
         }
-        
+
         if (counterNumber is "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I" or "J" or "L"
             || (int.Parse(counterNumber) >= 1 && int.Parse(counterNumber) <= 9))
         {
@@ -695,7 +695,7 @@ public static class Commands
         {
             throw new ArgumentException($"Counter Number is Invalid (1 to 9, A to J): {counterNumber}");
         }
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "CN", parameters);
         switch (result.Error)
         {
@@ -710,7 +710,7 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) ClearCurrentCounterValue(
         Connection connection,
         int programNumber,
@@ -726,7 +726,7 @@ public static class Commands
         {
             throw new ArgumentException($"Program Number is Invalid (0, 1 to 500): {programNumber}");
         }
-        
+
         if (counterNumber is "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I" or "J" or "L"
             || (int.Parse(counterNumber) >= 1 && int.Parse(counterNumber) <= 9))
         {
@@ -739,7 +739,7 @@ public static class Commands
 
         return SendCommand(connection, identificationCode: "DR", parameters);
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetBarcodeCharacterString(
         Connection connection,
         BarcodeCharacterStringParameters parameters) =>
@@ -769,7 +769,7 @@ public static class Commands
         int barcodeNumber)
     {
         string parameters = "";
-        
+
         if (programNumber is >= 1 and <= 500)
         {
             parameters += $",{programNumber}";
@@ -778,7 +778,7 @@ public static class Commands
         {
             throw new ArgumentException($"Program Number is Invalid (0, 1 to 500): {programNumber}");
         }
-        
+
         if (barcodeNumber is >= 1 and <= 4)
         {
             parameters += $",{barcodeNumber}";
@@ -787,7 +787,7 @@ public static class Commands
         {
             throw new ArgumentException($"Barcode Number is Invalid (1 to 4): {barcodeNumber}");
         }
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "BF", parameters);
         switch (result.Error)
         {
@@ -809,7 +809,7 @@ public static class Commands
         string barcodeContents)
     {
         string parameters = "";
-        
+
         if (barcodeNumber is >= 1 and <= 4)
         {
             parameters += $",{barcodeNumber}";
@@ -818,7 +818,7 @@ public static class Commands
         {
             throw new ArgumentException($"Program Number is Invalid (0, 1 to 500): {barcodeNumber}");
         }
-        
+
         if (barcodeContents.Length <= 70)
         {
             parameters += $",{barcodeContents}";
@@ -842,7 +842,7 @@ public static class Commands
         int barcodeNumber)
     {
         string parameters = "";
-        
+
         if (programNumber is >= 0 and <= 500)
         {
             parameters += $",{programNumber}";
@@ -860,7 +860,7 @@ public static class Commands
         {
             throw new ArgumentException($"Barcode Number is Invalid (1 to 4): {barcodeNumber}");
         }
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "B1", parameters);
         switch (result.Error)
         {
@@ -887,7 +887,7 @@ public static class Commands
         int barcodeNumber)
     {
         string parameters = "";
-        
+
         if (programNumber is >= 1 and <= 500)
         {
             parameters += $",{programNumber}";
@@ -905,7 +905,7 @@ public static class Commands
         {
             throw new ArgumentException($"Barcode Number is Invalid (1 to 4): {barcodeNumber}");
         }
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "B3", parameters);
         switch (result.Error)
         {
@@ -932,7 +932,7 @@ public static class Commands
         int expirationPeriodNumber)
     {
         string parameters = "";
-        
+
         if (programNumber is >= 0 and <= 500)
         {
             parameters += $",{programNumber}";
@@ -950,7 +950,7 @@ public static class Commands
         {
             throw new ArgumentException($"Expiration Period Number is Invalid (0 to 50): {expirationPeriodNumber}");
         }
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "RV", parameters);
         switch (result.Error)
         {
@@ -972,7 +972,7 @@ public static class Commands
         string expirationPeriodNumber)
     {
         string parameters = "";
-        
+
         if (programNumber == "ALL" || int.Parse(programNumber) is >= 0 and <= 500)
         {
             parameters += $",{programNumber}";
@@ -990,10 +990,10 @@ public static class Commands
         {
             throw new ArgumentException($"Expiration Period Number is Invalid (0 to 50): {expirationPeriodNumber}");
         }
-        
+
         return SendCommand(connection, identificationCode: "RY", parameters);
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetYearEncodedCharacters(
         Connection connection,
         YearEncodedCharactersParameters parameters) =>
@@ -1005,7 +1005,7 @@ public static class Commands
         CharacterCode characterCode)
     {
         string parameters = "";
-        
+
         if (yearEncodedCharacters is >= 1 and <= 10)
         {
             parameters += $",{yearEncodedCharacters}";
@@ -1014,9 +1014,9 @@ public static class Commands
         {
             throw new ArgumentException($"Year Encoded Characters is Invalid (1 to 10): {yearEncodedCharacters}");
         }
-        
+
         parameters += $", {(int)characterCode}";
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "RB", parameters);
         switch (result.Error)
         {
@@ -1031,19 +1031,19 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetMonthEncodedCharacters(
         Connection connection,
         MonthEncodedCharactersParameters parameters) =>
         SendCommand(connection, identificationCode: "RC", parameters.ParameterString);
-    
+
     public static (MonthEncodedCharactersParameters? Parameters, ErrorResponse? Error) RequestMonthEncodedCharacters(
         Connection connection,
         int monthEncodedCharacters,
         CharacterCode characterCode)
     {
         string parameters = "";
-        
+
         if (monthEncodedCharacters is >= 1 and <= 10)
         {
             parameters += $",{monthEncodedCharacters}";
@@ -1052,9 +1052,9 @@ public static class Commands
         {
             throw new ArgumentException($"Month Encoded Characters is Invalid (1 to 10): {monthEncodedCharacters}");
         }
-        
+
         parameters += $", {(int)characterCode}";
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "RD", parameters);
         switch (result.Error)
         {
@@ -1069,19 +1069,19 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetDayEncodedCharacters(
         Connection connection,
         DayEncodedCharactersParameters parameters) =>
         SendCommand(connection, identificationCode: "RE", parameters.ParameterString);
-    
+
     public static (DayEncodedCharactersParameters? Parameters, ErrorResponse? Error) RequestDayEncodedCharacters(
         Connection connection,
         int dayEncodedCharacters,
         CharacterCode characterCode)
     {
         string parameters = "";
-        
+
         if (dayEncodedCharacters is >= 1 and <= 10)
         {
             parameters += $",{dayEncodedCharacters}";
@@ -1090,9 +1090,9 @@ public static class Commands
         {
             throw new ArgumentException($"Day Encoded Characters is Invalid (1 to 10): {dayEncodedCharacters}");
         }
-        
+
         parameters += $", {(int)characterCode}";
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "RF", parameters);
         switch (result.Error)
         {
@@ -1107,19 +1107,19 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetHourEncodedCharacters(
         Connection connection,
         HourEncodedCharactersParameters parameters) =>
         SendCommand(connection, identificationCode: "RG", parameters.ParameterString);
-    
+
     public static (HourEncodedCharactersParameters? Parameters, ErrorResponse? Error) RequestHourEncodedCharacters(
         Connection connection,
         int hourEncodedCharacters,
         CharacterCode characterCode)
     {
         string parameters = "";
-        
+
         if (hourEncodedCharacters is >= 1 and <= 10)
         {
             parameters += $",{hourEncodedCharacters}";
@@ -1128,9 +1128,9 @@ public static class Commands
         {
             throw new ArgumentException($"Hour Encoded Characters is Invalid (1 to 10): {hourEncodedCharacters}");
         }
-        
+
         parameters += $", {(int)characterCode}";
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "RH", parameters);
         switch (result.Error)
         {
@@ -1145,19 +1145,19 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetMinuteEncodedCharacters(
         Connection connection,
         MinuteEncodedCharactersParameters parameters) =>
         SendCommand(connection, identificationCode: "RI", parameters.ParameterString);
-    
+
     public static (MinuteEncodedCharactersParameters? Parameters, ErrorResponse? Error) RequestMinuteEncodedCharacters(
         Connection connection,
         int minuteEncodedCharacters,
         CharacterCode characterCode)
     {
         string parameters = "";
-        
+
         if (minuteEncodedCharacters is >= 1 and <= 10)
         {
             parameters += $",{minuteEncodedCharacters}";
@@ -1166,9 +1166,9 @@ public static class Commands
         {
             throw new ArgumentException($"Minute Encoded Characters is Invalid (1 to 10): {minuteEncodedCharacters}");
         }
-        
+
         parameters += $", {(int)characterCode}";
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "RJ", parameters);
         switch (result.Error)
         {
@@ -1183,19 +1183,19 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetSecondEncodedCharacters(
         Connection connection,
         SecondEncodedCharactersParameters parameters) =>
         SendCommand(connection, identificationCode: "RK", parameters.ParameterString);
-    
+
     public static (SecondEncodedCharactersParameters? Parameters, ErrorResponse? Error) RequestSecondEncodedCharacters(
         Connection connection,
         int secondEncodedCharacters,
         CharacterCode characterCode)
     {
         string parameters = "";
-        
+
         if (secondEncodedCharacters is >= 1 and <= 10)
         {
             parameters += $",{secondEncodedCharacters}";
@@ -1204,9 +1204,9 @@ public static class Commands
         {
             throw new ArgumentException($"Second Encoded Characters is Invalid (1 to 10): {secondEncodedCharacters}");
         }
-        
+
         parameters += $", {(int)characterCode}";
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "RL", parameters);
         switch (result.Error)
         {
@@ -1221,19 +1221,19 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetDayOfTheWeekEncodedCharacters(
-        Connection connection, 
+        Connection connection,
         DayOfTheWeekEncodedCharactersParameters parameters) =>
         SendCommand(connection, identificationCode: "RM", parameters.ParameterString);
-    
+
     public static (DayOfTheWeekEncodedCharactersParameters? Parameters, ErrorResponse? Error) RequestDayOfTheWeekEncodedCharacters(
         Connection connection,
         int dayOfTheWeekEncodedCharacters,
         CharacterCode characterCode)
     {
         string parameters = "";
-        
+
         if (dayOfTheWeekEncodedCharacters is >= 1 and <= 10)
         {
             parameters += $",{dayOfTheWeekEncodedCharacters}";
@@ -1242,9 +1242,9 @@ public static class Commands
         {
             throw new ArgumentException($"DayOfTheWeek Encoded Characters is Invalid (1 to 10): {dayOfTheWeekEncodedCharacters}");
         }
-        
+
         parameters += $", {(int)characterCode}";
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "RN", parameters);
         switch (result.Error)
         {
@@ -1259,19 +1259,19 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetWeekEncodedCharacters(
-        Connection connection, 
+        Connection connection,
         WeekEncodedCharactersParameters parameters) =>
         SendCommand(connection, identificationCode: "RO", parameters.ParameterString);
-    
+
     public static (WeekEncodedCharactersParameters? Parameters, ErrorResponse? Error) RequestWeekEncodedCharacters(
         Connection connection,
         int weekEncodedCharacters,
         CharacterCode characterCode)
     {
         string parameters = "";
-        
+
         if (weekEncodedCharacters is >= 1 and <= 10)
         {
             parameters += $",{weekEncodedCharacters}";
@@ -1280,9 +1280,9 @@ public static class Commands
         {
             throw new ArgumentException($"Week Encoded Characters is Invalid (1 to 10): {weekEncodedCharacters}");
         }
-        
+
         parameters += $", {(int)characterCode}";
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "RP", parameters);
         switch (result.Error)
         {
@@ -1297,19 +1297,19 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetCounterEncodedCharacters(
-        Connection connection, 
+        Connection connection,
         CounterEncodedCharactersParameters parameters) =>
         SendCommand(connection, identificationCode: "RQ", parameters.ParameterString);
-    
+
     public static (CounterEncodedCharactersParameters? Parameters, ErrorResponse? Error) RequestCounterEncodedCharacters(
         Connection connection,
         int counterEncodedCharacters,
         CharacterCode characterCode)
     {
         string parameters = "";
-        
+
         if (counterEncodedCharacters is >= 1 and <= 10)
         {
             parameters += $",{counterEncodedCharacters}";
@@ -1318,9 +1318,9 @@ public static class Commands
         {
             throw new ArgumentException($"Counter Encoded Characters is Invalid (1 to 10): {counterEncodedCharacters}");
         }
-        
+
         parameters += $", {(int)characterCode}";
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "RR", parameters);
         switch (result.Error)
         {
@@ -1335,19 +1335,19 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetShiftCodeEncodedCharacters(
-        Connection connection, 
+        Connection connection,
         ShiftCodeEncodedCharactersParameters parameters) =>
         SendCommand(connection, identificationCode: "RS", parameters.ParameterString);
-    
+
     public static (ShiftCodeEncodedCharactersParameters? Parameters, ErrorResponse? Error) RequestShiftCodeEncodedCharacters(
         Connection connection,
         int shiftCodeEncodedCharacters,
         CharacterCode characterCode)
     {
         string parameters = "";
-        
+
         if (shiftCodeEncodedCharacters is >= 1 and <= 10)
         {
             parameters += $",{shiftCodeEncodedCharacters}";
@@ -1356,9 +1356,9 @@ public static class Commands
         {
             throw new ArgumentException($"Shift Code Encoded Characters is Invalid (1 to 10): {shiftCodeEncodedCharacters}");
         }
-        
+
         parameters += $", {(int)characterCode}";
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "RT", parameters);
         switch (result.Error)
         {
@@ -1373,13 +1373,13 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetEncodedCharacters(
-        Connection connection, 
+        Connection connection,
         EncodedCharactersParameters parameters,
         EncodedType encodedType) =>
         SendCommand(connection, EncodedCharacters.SetIdentificationCodeString(encodedType), parameters.ParameterString);
-    
+
     public static (EncodedCharactersParameters? Parameters, ErrorResponse? Error) RequestEncodedCharacters(
         Connection connection,
         int encodedCharacters,
@@ -1387,7 +1387,7 @@ public static class Commands
         EncodedType encodedType)
     {
         string parameters = "";
-        
+
         if (encodedCharacters is >= 1 and <= 10)
         {
             parameters += $",{encodedCharacters}";
@@ -1396,9 +1396,9 @@ public static class Commands
         {
             throw new ArgumentException($"Encoded Characters is Invalid (1 to 10): {encodedCharacters}");
         }
-        
+
         parameters += $", {(int)characterCode}";
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(
             connection,
             EncodedCharacters.RequestIdentificationCodeString(encodedType),
@@ -1416,7 +1416,7 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) InitializeEncodedCharacters(
         Connection connection,
         EncodedType encodedType,
@@ -1425,7 +1425,7 @@ public static class Commands
         string parameters = "";
 
         parameters += $",{EncodedCharacters.EncodedTypeToString(encodedType)}";
-        
+
         if (encodedNumber == "AL" || int.Parse(encodedNumber) is >= 1 and <= 10)
         {
             parameters += $",{encodedNumber}";
@@ -1453,7 +1453,7 @@ public static class Commands
         {
             throw new ArgumentException($"Program Number is Invalid (5 to 500): {programNumber}");
         }
-        
+
         return SendCommand(connection, identificationCode: "FW", parameters);
     }
 
@@ -1474,7 +1474,7 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetGroupPrintingNumber(
         Connection connection,
         int groupNumber)
@@ -1489,10 +1489,10 @@ public static class Commands
         {
             throw new ArgumentException($"Group Number is Invalid (0, 1 to 10): {groupNumber}");
         }
-        
+
         return SendCommand(connection, identificationCode: "FF", parameters);
     }
-    
+
     public static (int? GroupNumber, ErrorResponse? Error) RequestGroupPrintingNumber(
         Connection connection)
     {
@@ -1510,15 +1510,15 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) ResetGroupPrintingNumber(Connection connection) =>
         SendCommand(connection, identificationCode: "FH");
-    
+
     public static (string? Response, ErrorResponse? Error) SetCommunicationBuffer(
         Connection connection,
         CommunicationBuffer communicationBuffer) =>
         SendCommand(connection, identificationCode: "KV", $",{(int)communicationBuffer}");
-    
+
     public static (CommunicationBuffer? CommunicationBuffer, ErrorResponse? Error) RequestCommunicationBuffer(
         Connection connection)
     {
@@ -1536,24 +1536,24 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) ClearCommunicationBuffer(Connection connection) =>
         SendCommand(connection, identificationCode: "KX");
-    
+
     public static (string? Response, ErrorResponse? Error) StartTestPrinting(Connection connection) =>
         SendCommand(connection, identificationCode: "TW");
-    
+
     public static (string? Response, ErrorResponse? Error) SuspendPrinting(Connection connection) =>
         SendCommand(connection, identificationCode: "SR");
-    
+
     public static (string? Response, ErrorResponse? Error) ResumePrinting(Connection connection) =>
         SendCommand(connection, identificationCode: "SQ");
-    
+
     public static (string? Response, ErrorResponse? Error) SetGuideLedStatus(
         Connection connection,
         GuideLedStatus guideLedStatus) =>
         SendCommand(connection, identificationCode: "GL", $",{(int)guideLedStatus}");
-    
+
     public static (GuideLedStatus? GuideLedStatus, ErrorResponse? Error) RequestGuideLedStatus(
         Connection connection)
     {
@@ -1596,7 +1596,7 @@ public static class Commands
         {
             throw new ArgumentException($"Printed Count is Invalid (0 to 999999999): {printedCount}");
         }
-        
+
         return SendCommand(connection, identificationCode: "KG", parameters);
     }
 
@@ -1606,7 +1606,7 @@ public static class Commands
             int printedCounterNumber)
     {
         string parameters = "";
-        
+
         if (printedCounterNumber is >= 1 and <= 3)
         {
             parameters += $",{printedCounterNumber}";
@@ -1615,7 +1615,7 @@ public static class Commands
         {
             throw new ArgumentException($"Printed Counter Number is Invalid (1 to 3): {printedCounterNumber}");
         }
-        
+
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "KH", parameters);
         switch (result.Error)
         {
@@ -1630,12 +1630,12 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetCurrentDateTime(
         Connection connection,
         TimeParameters parameters) =>
         SendCommand(connection, identificationCode: "DA", parameters.ParameterString);
-    
+
     public static (TimeParameters? Parameters, ErrorResponse? Error) RequestCurrentDateTime(
         Connection connection)
     {
@@ -1653,12 +1653,12 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetHoldDateTime(
         Connection connection,
         TimeParameters parameters) =>
         SendCommand(connection, identificationCode: "DH", parameters.ParameterString);
-    
+
     public static (TimeParameters? Parameters, ErrorResponse? Error) RequestHoldDateTime(
         Connection connection)
     {
@@ -1676,12 +1676,12 @@ public static class Commands
                 return (null, null);
         }
     }
-    
+
     public static (string? Response, ErrorResponse? Error) SetTimeType(
         Connection connection,
         TimeType timeType) =>
         SendCommand(connection, identificationCode: "DT", $",{(int)timeType}");
-    
+
     public static (TimeType? TimeType, ErrorResponse? Error) RequestTimeType(
         Connection connection)
     {

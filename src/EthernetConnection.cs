@@ -14,7 +14,19 @@ public class EthernetConnection : Connection
 {
     public readonly System.Net.IPAddress IpAddress;
     public readonly int Port;
-    
+
+    public EthernetConnection(
+        string ipString,
+        int port = 9004,
+        Delimiter delimiter = Delimiter.CR,
+        Checksum checksum = Checksum.NotPresent,
+        CommunicationBuffer buffer = CommunicationBuffer.Off)
+        : base(delimiter, checksum, buffer)
+    {
+        IpAddress = System.Net.IPAddress.Parse(ipString);
+        Port = port;
+    }
+
     public EthernetConnection(
         System.Net.IPAddress ipAddress,
         int port = 9004,

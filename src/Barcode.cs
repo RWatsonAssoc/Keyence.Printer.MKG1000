@@ -231,9 +231,9 @@ public static class BarcodeCharacterString
         string[] split = rawResponseString.Split(',');
 
         return new BarcodeCharacterStringParameters(
-            ProgramNumber: int.Parse(split[2]),
-            BarcodeNumber: int.Parse(split[3]),
-            BarcodeContents: split[4]);
+            ProgramNumber: int.Parse(split[1]),
+            BarcodeNumber: int.Parse(split[2]),
+            BarcodeContents: split[3]);
     }
 
     public static BarcodeCharacterStringParameters CreateParameters(

@@ -10,4 +10,12 @@
 
 namespace Keyence.Printer.MKG1000;
 
-public readonly record struct ErrorResponse(int ErrorCode, string ErrorName, string ErrorDescription, string Countermeasures);
+public readonly record struct ErrorResponse(
+    int ErrorCode,
+    string ErrorName,
+    string ErrorDescription,
+    string Countermeasures)
+{
+    public string ErrorString =>
+        $"{ErrorCode}, {ErrorName}, {ErrorDescription}, {Countermeasures}";
+}
