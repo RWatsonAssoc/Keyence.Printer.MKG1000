@@ -64,9 +64,9 @@ public static class CounterCurrentValue
         string[] split = rawResponseString.Split(',');
 
         return new CounterCurrentValueParameters(
-            ProgramNumber: int.Parse(split[2]),
-            CounterNumber: split[3],
-            CurrentCounterValue: uint.Parse(split[4]));
+            ProgramNumber: int.Parse(split[1]),
+            CounterNumber: split[2],
+            CurrentCounterValue: uint.Parse(split[3]));
     }
 
     public static CounterCurrentValueParameters CreateParameters(

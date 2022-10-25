@@ -70,6 +70,12 @@ let tests =
                 Commands.RequestCurrentRepeatCountValueForCounter(connection, 0, "A")
             Expect.isTrue parameters.HasValue (getOutputString parameters error)
 
+        testCase "Requesting the current counter value" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, error) =
+                Commands.RequestCurrentCounterValue(connection, 0, "A")
+            Expect.isTrue parameters.HasValue (getOutputString parameters error)
+
         testCase "Requesting the print character string" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (parameters, error) =
