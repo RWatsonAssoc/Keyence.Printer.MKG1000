@@ -45,6 +45,17 @@ let tests =
                 Commands.RequestMessageConditions(connection, 1, 1)
             Expect.isTrue parameters.HasValue (getOutputString parameters error)
 
+        testCase "Requesting the print character string" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, error) =
+                Commands.RequestPrintCharacterString(
+                    connection,
+                    1,
+                    1,
+                    UpdateCharacterFormat.CharactersToActuallyPrint,
+                    CharacterCode.RequestAtTimeOfSetting)
+            Expect.isTrue parameters.HasValue (getOutputString parameters error)
+
         testCase "Requesting the barcode character string" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (parameters, error) =

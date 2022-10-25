@@ -54,13 +54,13 @@ public static class PrintCharacterString
         string[] split = rawResponseString.Split(',');
 
         return new PrintCharacterStringRequestResponseParameters(
-            ProgramNumber: int.Parse(split[2]),
-            MessageNumber: int.Parse(split[3]),
-            UpdateCharacterFormat: (UpdateCharacterFormat)Enum.Parse(typeof(UpdateCharacterFormat), split[4]),
-            CharacterCode: (CharacterCode)Enum.Parse(typeof(CharacterCode), split[5]),
-            CharacterStringData: split[6]);
+            ProgramNumber: int.Parse(split[1]),
+            MessageNumber: int.Parse(split[2]),
+            UpdateCharacterFormat: (UpdateCharacterFormat)Enum.Parse(typeof(UpdateCharacterFormat), split[3]),
+            CharacterCode: (CharacterCode)Enum.Parse(typeof(CharacterCode), split[4]),
+            CharacterStringData: split[5]);
     }
-    
+
     public static PrintCharacterStringSetCommandParameters CreateSetCommandParameters(
         int programNumber,
         int messageNumber,
@@ -114,7 +114,7 @@ public static class PrintCharacterString
     {
         int _programNumber;
         int _messageNumber;
-        
+
         if (programNumber is >= 1 and <= 500)
         {
             _programNumber = programNumber;
