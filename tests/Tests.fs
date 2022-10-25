@@ -64,6 +64,13 @@ let tests =
                 Commands.RequestCounterConditions(connection, 0, "A")
             Expect.isTrue parameters.HasValue (getOutputString parameters error)
 
+        // TODO: Hangs and never returns.
+        ptestCase "Requesting the counter's current repeat count" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, error) =
+                Commands.RequestCurrentRepeatCountValueForCounter(connection, 0, "A")
+            Expect.isTrue parameters.HasValue (getOutputString parameters error)
+
         testCase "Requesting the print character string" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (parameters, error) =

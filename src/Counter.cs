@@ -110,9 +110,9 @@ public static class CounterCurrentRepeatCount
         string[] split = rawResponseString.Split(',');
 
         return new CounterCurrentRepeatCountParameters(
-            ProgramNumber: int.Parse(split[2]),
-            CounterNumber: split[3],
-            CurrentRepeatCountValue: uint.Parse(split[4]));
+            ProgramNumber: int.Parse(split[1]),
+            CounterNumber: split[2],
+            CurrentRepeatCountValue: uint.Parse(split[3]));
     }
 
     public static CounterCurrentRepeatCountParameters CreateParameters(
