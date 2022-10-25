@@ -17,7 +17,7 @@ let private ipString = "172.16.16.52"
 
 [<Tests>]
 let tests =
-    testList "tests" [
+    testSequencedGroup "Avoid System.Net.Sockets.SocketException" <| testList "tests" [
         testCase "Requesting the error status" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (errorStatus, _) =
@@ -64,8 +64,7 @@ let tests =
                 Commands.RequestCounterConditions(connection, 0, "A")
             Expect.isTrue parameters.HasValue (getOutputString parameters error)
 
-        // TODO: Hangs and never returns.
-        ptestCase "Requesting the counter's current repeat count" <| fun _ ->
+        testCase "Requesting the counter's current repeat count" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (parameters, error) =
                 Commands.RequestCurrentRepeatCountValueForCounter(connection, 0, "A")

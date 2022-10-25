@@ -8,6 +8,7 @@
 // <author>Richard Watson, Russell Dillin</author>
 // <summary>Methods to send a command to the printer</summary>
 
+using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text;
 
@@ -38,7 +39,10 @@ public static class Command
         int bytesRead;
         var decoder = Encoding.ASCII.GetDecoder();
         var charBuffer = new char[bufferLen];
-        
+
+        var sw = new Stopwatch();
+        sw.Start();
+
         while((bytesRead = networkStream.Read(inboundData, 0, inboundData.Length)) != 0)
         {
             var charsRead = decoder.GetChars(inboundData, 0, bytesRead, charBuffer, 0);
@@ -47,13 +51,21 @@ public static class Command
             {
                 if (rawResponseString.EndsWith('\x0d'))
                     break;
-            } 
+            }
             else if(delimiter == Delimiter.ETX)
             {
                 if (rawResponseString.EndsWith('\x03'))
                     break;
             }
+
+            if (sw.ElapsedMilliseconds > 1500)
+            {
+                networkStream.Close();
+                throw new TimeoutException("GetRawResponseString");
+            }
         }
+
+        sw.Stop();
 
         return rawResponseString;
     }
@@ -73,6 +85,18 @@ public static class Command
         }
     }
 
+    /// <summary>
+    /// "The communication method uses commands and responses, so multiple commands
+    /// cannot be sent at the same time. Be sure to receive a response before sending
+    /// the subsequent command."
+    /// </summary>
+    /// <param name="connection"></param>
+    /// <param name="identificationCode"></param>
+    /// <param name="parameters"></param>
+    /// <returns>A tuple of Nullable string and Nullable ErrorResponse</returns>
+    /// <exception cref="NotImplementedException">
+    /// RS-232C Communication Not Implemented
+    /// </exception>
     public static (string? Response, ErrorResponse? Error) SendCommand(
         Connection connection,
         string identificationCode,
@@ -80,17 +104,17 @@ public static class Command
     {
         string rawCommandString = identificationCode + parameters;
         AddDelimiter(ref rawCommandString, connection.Delimiter);
-        
+
         if (connection is EthernetConnection ethernetConnection)
         {
             try
             {
                 using var tcpClient = new TcpClient();
-                
+
                 var printerEndPoint = new System.Net.IPEndPoint(
                     ethernetConnection.IpAddress,
                     ethernetConnection.Port);
-                
+
                 tcpClient.Connect(printerEndPoint);
 
                 byte[] bytes = Encoding.ASCII.GetBytes(rawCommandString);
@@ -98,7 +122,7 @@ public static class Command
                 NetworkStream networkStream = tcpClient.GetStream();
                 networkStream.WriteTimeout = 1000;
                 networkStream.ReadTimeout = 1000;
-                
+
                 networkStream.Write(bytes, 0, bytes.Length);
 
                 string rawResponseString = GetRawResponseString(
