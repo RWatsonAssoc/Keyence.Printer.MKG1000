@@ -3,22 +3,30 @@ module Tests
 open Expecto
 open Keyence.Printer.MKG1000
 
+let private getOutputString (ok : System.Nullable<'a>) (error : System.Nullable<ErrorResponse>) : string =
+    if ok.HasValue then
+        ok.Value.ToString()
+    else
+        if error.HasValue then
+            let errorResponse = error.Value
+            errorResponse.ErrorString
+        else
+            "parameters is null, error is null"
+
+let private ipString = "172.16.16.52"
+
 [<Tests>]
 let tests =
     testList "tests" [
+        testCase "Requesting the system status—acquiring the current system status" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (systemStatus, error) =
+                Commands.RequestSystemStatus(connection)
+            Expect.isTrue systemStatus.HasValue (getOutputString systemStatus error)
+
         testCase "Requesting the barcode character string" <| fun _ ->
-            let connection = EthernetConnection("172.16.16.52")
+            let connection = EthernetConnection(ipString)
             let struct (parameters, error) =
                 Commands.RequestBarcodeCharacterString(connection, 1, 1)
-            let output =
-                if parameters.HasValue then
-                    let barcodeCharacterStringParameters = parameters.Value
-                    barcodeCharacterStringParameters.ParameterString
-                else
-                    if error.HasValue then
-                        let errorResponse = error.Value
-                        errorResponse.ErrorString
-                    else
-                        "parameters is null, error is null"
-            Expect.isTrue parameters.HasValue output
+            Expect.isTrue parameters.HasValue (getOutputString parameters error)
     ]

@@ -57,9 +57,9 @@ public static class Commands
         }
     }
 
-    public static (SystemStatus?, ErrorResponse? Error) RequestSystemStatus(Connection connection)
+    public static (SystemStatus? SystemStatus, ErrorResponse? Error) RequestSystemStatus(Connection connection)
     {
-        (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "EV");
+        (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "SB");
         switch (result.Error)
         {
             case { } errorResponse:
@@ -67,7 +67,7 @@ public static class Commands
             case null when result.RawResponseString is { } response:
             {
                 string[] split = response.Split(',');
-                int code = int.Parse(split[2]);
+                int code = int.Parse(split[1]);
                 SystemStatus systemStatus = SystemStatuses.Data.First(x => x.Code == code);
                 return (systemStatus, null);
             }
