@@ -14,4 +14,4 @@ public enum Checksum
 {
     NotPresent,
     Present
-};
+}

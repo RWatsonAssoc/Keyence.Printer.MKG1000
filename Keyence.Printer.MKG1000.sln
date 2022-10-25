@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Keyence.Printer.MKG1000", "src\Keyence.Printer.MKG1000.csproj", "{F166579B-FD5B-45CA-9B85-F75FA709B960}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Keyence.Printer.MKG1000.Tests", "tests\Keyence.Printer.MKG1000.Tests.fsproj", "{D850CE41-6E05-4224-AC4B-75D49CCA5BFE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F166579B-FD5B-45CA-9B85-F75FA709B960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F166579B-FD5B-45CA-9B85-F75FA709B960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F166579B-FD5B-45CA-9B85-F75FA709B960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F166579B-FD5B-45CA-9B85-F75FA709B960}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D850CE41-6E05-4224-AC4B-75D49CCA5BFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D850CE41-6E05-4224-AC4B-75D49CCA5BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D850CE41-6E05-4224-AC4B-75D49CCA5BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D850CE41-6E05-4224-AC4B-75D49CCA5BFE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
