@@ -18,6 +18,12 @@ let private ipString = "172.16.16.52"
 [<Tests>]
 let tests =
     testList "tests" [
+        testCase "Requesting the error status" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (errorStatus, _) =
+                Commands.RequestErrorStatus(connection)
+            Expect.isEmpty errorStatus "No Error Status"
+
         testCase "Requesting the system status—acquiring the current system status" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (systemStatus, error) =

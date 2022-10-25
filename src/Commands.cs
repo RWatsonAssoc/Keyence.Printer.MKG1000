@@ -32,28 +32,35 @@ public static class Commands
     public static (string? Response, ErrorResponse? Error) ResetErrors(Connection connection) =>
         SendCommand(connection, identificationCode: "EZ");
 
-    public static (ErrorStatus[]?, ErrorResponse? Error) RequestErrorStatus(Connection connection)
+    public static (ErrorStatus[], ErrorResponse? Error) RequestErrorStatus(Connection connection)
     {
         (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "EV");
         switch (result.Error)
         {
             case { } errorResponse:
-                return (null, errorResponse);
+                return (System.Array.Empty<ErrorStatus>(), errorResponse);
             case null when result.RawResponseString is { } response:
             {
                 string[] split = response.Split(',');
-                int len = split.Length - 2;
-                ErrorStatus[] errorStatuses = new ErrorStatus[len];
-                for (int i = 2; i < len; i++)
+                if (split.Length == 0)
                 {
-                    int code = int.Parse(split[i]);
-                    ErrorStatus errorStatus = ErrorStatuses.Data.First(x => x.Code == code);
-                    errorStatuses[i - 2] = errorStatus;
+                    return (System.Array.Empty<ErrorStatus>(), null);
                 }
-                return (errorStatuses, null);
+                else
+                {
+                    int len = split.Length - 2;
+                    ErrorStatus[] errorStatuses = new ErrorStatus[split.Length - 1];
+                    for (int i = 1; i < len; i++)
+                    {
+                        int code = int.Parse(split[i]);
+                        ErrorStatus errorStatus = ErrorStatuses.Data.First(x => x.Code == code);
+                        errorStatuses[i - 1] = errorStatus;
+                    }
+                    return (errorStatuses, null);
+                }
             }
             default:
-                return (null, null);
+                return (System.Array.Empty<ErrorStatus>(), null);
         }
     }
 
