@@ -5,6 +5,11 @@ root = true
 # All files
 [*]
 indent_style = space
+charset = utf-8
+end_of_line=lf
+trim_trailing_whitespace = true
+insert_final_newline = true
+max_line_length=80
 
 # XML project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
@@ -13,6 +18,13 @@ indent_size = 2
 # XML config files
 [*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
 indent_size = 2
+
+[*.md]
+max_line_length = 0
+trim_trailing_whitespace = false
+
+[COMMIT_EDITMSG]
+max_line_length = 0
 
 # Code files
 [*.{cs,csx,vb,vbx}]
@@ -124,6 +136,23 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false
 # Wrapping preferences
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
+###############################
+# F# Coding Conventions       #
+###############################
+[*.fs]
+indent_size = 4
+fsharp_space_before_colon=true
+fsharp_indent_on_try_with=true
+fsharp_max_if_then_else_short_width=10
+fsharp_max_record_width=28
+fsharp_max_dot_get_expression_width=70
+fsharp_max_value_binding_width=20
+fsharp_max_function_binding_width=25
+fsharp_keep_if_then_in_same_line=true
+fsharp_max_elmish_width=2
+fsharp_single_argument_web_mode=true
+fsharp_multi_line_lambda_closing_newline=true
+fsharp_blank_lines_around_nested_multiline_expressions=false
 ###############################
 # VB Coding Conventions       #
 ###############################

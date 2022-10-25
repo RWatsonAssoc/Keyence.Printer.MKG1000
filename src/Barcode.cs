@@ -69,7 +69,7 @@ public static class BarcodeConditions
             BarcodeType.Jan13 => "H",
             _ => throw new ArgumentException("Invalid enum value for BarcodeType", nameof(barcodeType))
         };
-    
+
     public static BarcodeType StringToBarcodeType(string s) =>
         s switch
         {
@@ -82,16 +82,16 @@ public static class BarcodeConditions
             "6" => BarcodeType.Code39CheckDigitOn,
             "7" => BarcodeType.Nw7CodabarCheckDigitOn,
             "E" => BarcodeType.UpcE,
-            "F" => BarcodeType.Jan8, 
+            "F" => BarcodeType.Jan8,
             "G" => BarcodeType.UpcA,
             "H" => BarcodeType.Jan13,
             _ => throw new ArgumentException("Invalid string for BarcodeType", nameof(s))
         };
-    
+
     public static BarcodeConditionsParameters CreateParametersFromResponseString(string rawResponseString)
     {
         string[] split = rawResponseString.Split(',');
-        
+
         return new BarcodeConditionsParameters(
             ProgramNumber: int.Parse(split[2]),
             BarcodeNumber: int.Parse(split[3]),
@@ -105,7 +105,7 @@ public static class BarcodeConditions
             HumanReadable: (HumanReadable)Enum.Parse(typeof(HumanReadable), split[11]),
             QuietZone: int.Parse(split[12]));
     }
-    
+
     public static BarcodeConditionsParameters CreateParameters(
         int programNumber,
         int barcodeNumber,
@@ -127,14 +127,14 @@ public static class BarcodeConditions
         int _wideBarWidth;
         int _wideBarSpaceWidth;
         int _quietZone;
-        
-        if (programNumber is >= 0 and <= 500)
+
+        if (programNumber is >= 1 and <= 500)
         {
             _programNumber = programNumber;
         }
         else
         {
-            throw new ArgumentException($"Program Number is Invalid (0, 1 to 500): {programNumber}");
+            throw new ArgumentException($"Program Number is Invalid (1 to 500): {programNumber}");
         }
 
         if (barcodeNumber is >= 1 and <= 4)
@@ -197,7 +197,7 @@ public static class BarcodeConditions
         }
         else
         {
-            throw new ArgumentException($"Quiet Zone is Invalid (9 to 99): {quietZone}");
+            throw new ArgumentException($"Quiet Zone is Invalid (0 to 99): {quietZone}");
         }
 
         return new BarcodeConditionsParameters(
@@ -229,13 +229,13 @@ public static class BarcodeCharacterString
     public static BarcodeCharacterStringParameters CreateParametersFromResponseString(string rawResponseString)
     {
         string[] split = rawResponseString.Split(',');
-        
+
         return new BarcodeCharacterStringParameters(
             ProgramNumber: int.Parse(split[2]),
             BarcodeNumber: int.Parse(split[3]),
             BarcodeContents: split[4]);
     }
-    
+
     public static BarcodeCharacterStringParameters CreateParameters(
         int programNumber,
         int barcodeNumber,
@@ -244,7 +244,7 @@ public static class BarcodeCharacterString
         int _programNumber;
         int _barcodeNumber;
         string _barcodeContents;
-        
+
         if (programNumber is >= 1 and <= 500)
         {
             _programNumber = programNumber;
@@ -253,7 +253,7 @@ public static class BarcodeCharacterString
         {
             throw new ArgumentException($"Program Number is Invalid (0, 1 to 500): {programNumber}");
         }
-        
+
         if (barcodeNumber is >= 1 and <= 4)
         {
             _barcodeNumber = barcodeNumber;
