@@ -189,4 +189,10 @@ let requestingTests =
             let struct (parameters, error) =
                 Commands.RequestHoldDateTime(connection)
             Expect.isTrue parameters.HasValue (getOutputString parameters error)
+
+        testCase "Hold date and time, requesting the time type" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (timeType, error) =
+                Commands.RequestTimeType(connection)
+            Expect.isTrue timeType.HasValue (getOutputString timeType error)
     ]

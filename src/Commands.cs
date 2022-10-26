@@ -1706,7 +1706,7 @@ public static class Commands
             case null when result.RawResponseString is { } rawResponseString:
             {
                 string[] split = rawResponseString.Split(',');
-                return ((TimeType)Enum.Parse(typeof(TimeType), split[2]), null);
+                return ((TimeType)Enum.Parse(typeof(TimeType), split[1]), null);
             }
             default:
                 return (null, null);
