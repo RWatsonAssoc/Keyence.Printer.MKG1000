@@ -1712,4 +1712,33 @@ public static class Commands
                 return (null, null);
         }
     }
+
+    /// <summary>
+    /// "When this command is received in the barcode comparison registration screen,
+    /// the variable is registered as a check code. When this command is received in
+    /// any other screen, the program number associated with a previously recorded
+    /// check variable is loaded."
+    /// </summary>
+    /// <param name="connection"></param>
+    /// <param name="asciiCharacterString"></param>
+    /// <returns>A tuple of Nullable string and Nullable ErrorResponse</returns>
+    /// <exception cref="ArgumentException"></exception>
+    public static (string? Response, ErrorResponse? Error) SetBarcodeLink(
+        Connection connection,
+        string asciiCharacterString)
+    {
+        string _asciiCharacterString;
+
+        if (asciiCharacterString.Length <= 10)
+        {
+            _asciiCharacterString = asciiCharacterString;
+        }
+        else
+        {
+            throw new ArgumentException(
+                $"ASCII character string length Invalid (Up to 10): {asciiCharacterString.Length}");
+        }
+
+        return SendCommand(connection, identificationCode: "BR", $",{_asciiCharacterString}");
+    }
 }
