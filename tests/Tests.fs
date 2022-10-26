@@ -178,4 +178,9 @@ let requestingTests =
                     (0, 0)
             Expect.isGreaterThan printedCount 0 (getOutputString result error)
 
+        testCase "Requesting the current date and time" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, error) =
+                Commands.RequestCurrentDateTime(connection)
+            Expect.isTrue parameters.HasValue (getOutputString parameters error)
     ]
