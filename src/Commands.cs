@@ -1713,6 +1713,29 @@ public static class Commands
         }
     }
 
+    public static (string? Response, ErrorResponse? Error) SetShiftTime(
+        Connection connection,
+        ShiftTimeParameters parameters) =>
+        SendCommand(connection, identificationCode: "DW", parameters.ParameterString);
+
+    public static (ShiftTimeParameters? Parameters, ErrorResponse? Error)
+        RequestShiftTime(Connection connection)
+    {
+        (string? RawResponseString, ErrorResponse? Error) result = SendCommand(connection, identificationCode: "DX");
+        switch (result.Error)
+        {
+            case { } errorResponse:
+                return (null, errorResponse);
+            case null when result.RawResponseString is { } rawResponseString:
+            {
+                var shiftTimeParameters = ShiftTime.CreateParametersFromResponseString(rawResponseString);
+                return (shiftTimeParameters, null);
+            }
+            default:
+                return (null, null);
+        }
+    }
+
     /// <summary>
     /// "When this command is received in the barcode comparison registration screen,
     /// the variable is registered as a check code. When this command is received in

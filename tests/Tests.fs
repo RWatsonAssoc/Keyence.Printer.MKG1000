@@ -205,4 +205,10 @@ let requestingTests =
             let struct (timeType, error) =
                 Commands.RequestTimeType(connection)
             Expect.isTrue timeType.HasValue (getOutputString timeType error)
+
+        testCase "Requesting the shift time" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, error) =
+                Commands.RequestShiftTime(connection)
+            Expect.isTrue parameters.HasValue (getOutputString parameters error)
     ]
