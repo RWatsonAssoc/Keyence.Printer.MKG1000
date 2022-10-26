@@ -166,4 +166,16 @@ let requestingTests =
             let struct (guideLedStatus, error) =
                 Commands.RequestGuideLedStatus(connection)
             Expect.isTrue guideLedStatus.HasValue (getOutputString guideLedStatus error)
+
+        testCase "Requesting the printed counters" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (result, error) =
+                Commands.RequestPrintedCounters(connection, 1)
+            let struct (_, printedCount) =
+                if result.HasValue then
+                    result.Value
+                else
+                    (0, 0)
+            Expect.isGreaterThan printedCount 0 (getOutputString result error)
+
     ]
