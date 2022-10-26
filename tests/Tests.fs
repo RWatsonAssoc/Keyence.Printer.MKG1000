@@ -160,4 +160,10 @@ let requestingTests =
             let struct (communicationBuffer, error) =
                 Commands.RequestCommunicationBuffer(connection)
             Expect.isTrue communicationBuffer.HasValue (getOutputString communicationBuffer error)
+
+        testCase "Requesting the guide LED status" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (guideLedStatus, error) =
+                Commands.RequestGuideLedStatus(connection)
+            Expect.isTrue guideLedStatus.HasValue (getOutputString guideLedStatus error)
     ]
