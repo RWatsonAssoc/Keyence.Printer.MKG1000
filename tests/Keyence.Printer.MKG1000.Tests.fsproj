@@ -3,6 +3,11 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <GenerateProgramFile>false</GenerateProgramFile>
+    <Authors>Russell Dillin</Authors>
+    <Company>R. Watson &amp; Associates, Inc.</Company>
+    <Description>Functions to test the Keyence.Printer.MKG1000 library</Description>
+    <Copyright>2022 R. Watson &amp; Associates, Inc.</Copyright>
+    <PackageLicenseExpression>MIT OR Apache-2.0</PackageLicenseExpression>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Tests.fs" />

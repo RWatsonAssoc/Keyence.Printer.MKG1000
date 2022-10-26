@@ -1,15 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>Keyence.Printer.MKG1000</AssemblyName>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Richard Watson, Russell Dillin</Authors>
-    <Company>2022 R. Watson &amp; Associates, Inc.</Company>
+    <Company>R. Watson &amp; Associates, Inc.</Company>
+    <Title>Keyence.Printer.MKG1000</Title>
     <Description>Library to simplify using the Keyence MK-G1000 continuous inkjet printer</Description>
     <Copyright>2022 R. Watson &amp; Associates, Inc.</Copyright>
+    <PackageTags>keyence;printer;inkjet</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT OR Apache-2.0</PackageLicenseExpression>
+    <PackageVersion>1.0.0</PackageVersion>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
     <None Include="../README.md">
