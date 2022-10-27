@@ -45,163 +45,6 @@ let tests =
             Expect.isTrue (notEmpty response) "Reset Errors"
     ]
 
-[<PTests>]
-let settingTests =
-    testSequencedGroup "Avoid System.Net.Sockets.SocketException" <| testList "Setting tests" [
-        testCase "Configuring line settings and print adjustmest" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (parameters, _) =
-                Commands.RequestLineSettingsAndPrintAdjustment(
-                    connection,
-                    string 1,
-                    CharacterCode.RequestAtTimeOfSetting)
-            let struct (response, error) =
-                Commands.ConfigureLineSettingsAndPrintAdjustment(
-                    connection,
-                    parameters.Value)
-            Expect.stringContains response "FM" (getErrorString error)
-
-        testCase "Setting the Message conditions" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (parameters, _) =
-                Commands.RequestMessageConditions(connection, 1, 1)
-            let struct (response, error) =
-                Commands.SetMessageConditions(connection, parameters.Value)
-            Expect.stringContains response "F1" (getErrorString error)
-
-        testCase "Setting the print character string" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (parameters, _) =
-                Commands.RequestPrintCharacterString(
-                    connection,
-                    1,
-                    1,
-                    UpdateCharacterFormat.CharactersToActuallyPrint,
-                    CharacterCode.RequestAtTimeOfSetting)
-            let setParameters =
-                PrintCharacterString.RequestResponseToSetCommand(parameters.Value)
-            let struct (response, error) =
-                Commands.SetPrintCharacterString(connection, setParameters)
-            Expect.stringContains response "FS" (getErrorString error)
-
-        testCase "Setting the print character string with ASCII code" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (response, error) =
-                Commands.SetPrintCharacterStringAsciiCode(
-                    connection, 1, [| struct (1, "test") |])
-            Expect.stringContains response "H2" (getErrorString error)
-
-        testCase "Changing the current character string in operation" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (response, error) =
-                Commands.ChangeCurrentCharacterStringInOperation(
-                    connection, 1, CharacterCode.Ascii, "Up to 240 characters")
-            Expect.stringContains response "BK" (getErrorString error)
-
-        testCase "Setting the counter conditions" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (parameters, _) =
-                Commands.RequestCounterConditions(connection, 1, string 1)
-            let struct (response, error) =
-                Commands.SetCounterConditions(connection, parameters.Value)
-            Expect.stringContains response "CO" (getErrorString error)
-
-        testCase "Setting the current value for the counter's repeat count" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (parameters, _) =
-                Commands.RequestCurrentRepeatCountValueForCounter(
-                    connection, 1, string 1)
-            let struct (response, error) =
-                Commands.SetCurrentRepeatCountValueForCounter(connection, parameters.Value)
-            Expect.stringContains response "CQ" (getErrorString error)
-
-        testCase "Setting the current counter value" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (parameters, _) =
-                Commands.RequestCurrentCounterValue(
-                    connection, 1, string 1)
-            let struct (response, error) =
-                Commands.SetCurrenCounterValue(connection, parameters.Value)
-            Expect.stringContains response "CM" (getErrorString error)
-
-        testCase "Clearing the current counter value" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (response, error) =
-                Commands.ClearCurrentCounterValue(
-                    connection, 1, string 1)
-            Expect.stringContains response "DR" (getErrorString error)
-
-        testCase "Setting the barcode character string" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (parameters, _) =
-                Commands.RequestBarcodeCharacterString(connection, 1, 1)
-            let struct (response, error) =
-                Commands.SetBarcodeCharacterString(connection, parameters.Value)
-            Expect.stringContains response "BE" (getErrorString error)
-
-        testCase "Setting the current barcode character string in operation" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (response, error) =
-                Commands.SetCurrentBarcodeCharacterStringInOperation(
-                    connection, 1, "System.String.Empty")
-            Expect.stringContains response "BH" (getErrorString error)
-
-        testCase "Setting the barcode conditions" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (parameters, _) =
-                Commands.RequestBarcodeConditions(
-                    connection, 1, 1)
-            let struct (response, error) =
-                Commands.SetBarcodeConditions(connection, parameters.Value)
-            Expect.stringContains response "B0" (getErrorString error)
-
-        testCase "Setting the current program number" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (programNumber, _) =
-                Commands.RequestCurrentProgramNumber(connection)
-            let struct (response, error) =
-                Commands.SetCurrentProgramNumber(connection, programNumber.Value)
-            Expect.stringContains response "FW" (getErrorString error)
-
-        testCase "Setting the group printing number" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (groupNumber, _) =
-                Commands.RequestGroupPrintingNumber(connection)
-            let struct (response, error) =
-                Commands.SetGroupPrintingNumber(connection, groupNumber.Value)
-            Expect.stringContains response "FF" (getErrorString error)
-
-        testCase "Clearing the communication buffer" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (response, error) =
-                Commands.ClearCommunicationBuffer(connection)
-            Expect.stringContains response "KX" (getErrorString error)
-
-        testCase "Setting the communication buffer (OFF)" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (response, error) =
-                Commands.SetCommunicationBuffer(connection, CommunicationBuffer.Off)
-            Expect.stringContains response "KV" (getErrorString error)
-
-        testCase "Setting the guide LED (OFF)" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (response, error) =
-                Commands.SetGuideLedStatus(connection, GuideLedStatus.Off)
-            Expect.stringContains response "GL" (getErrorString error)
-
-        testCase "Setting the printed counters" <| fun _ ->
-            let connection = EthernetConnection(ipString)
-            let struct (parameters, _) =
-                Commands.RequestPrintedCounters(connection, 1)
-            let struct (printedCounterNumber, printedCount) = parameters.Value
-            let struct (response, error) =
-                Commands.SetPrintedCounters(
-                    connection,
-                    printedCounterNumber,
-                    printedCount)
-            Expect.stringContains response "KG" (getErrorString error)
-    ]
-
 [<Tests>]
 let requestingTests =
     testSequencedGroup "Avoid System.Net.Sockets.SocketException" <| testList "Requesting tests" [
@@ -371,4 +214,193 @@ let requestingTests =
             let struct (parameters, error) =
                 Commands.RequestShiftTime(connection)
             Expect.isTrue parameters.HasValue (getOutputString parameters error)
+    ]
+
+[<PTests>]
+let settingTests =
+    testSequencedGroup "Avoid System.Net.Sockets.SocketException" <| testList "Setting tests" [
+        testCase "Configuring line settings and print adjustmest" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestLineSettingsAndPrintAdjustment(
+                    connection,
+                    string 1,
+                    CharacterCode.RequestAtTimeOfSetting)
+            let struct (response, error) =
+                Commands.ConfigureLineSettingsAndPrintAdjustment(
+                    connection,
+                    parameters.Value)
+            Expect.stringContains response "FM" (getErrorString error)
+
+        testCase "Setting the Message conditions" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestMessageConditions(connection, 1, 1)
+            let struct (response, error) =
+                Commands.SetMessageConditions(connection, parameters.Value)
+            Expect.stringContains response "F1" (getErrorString error)
+
+        testCase "Setting the print character string" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestPrintCharacterString(
+                    connection,
+                    1,
+                    1,
+                    UpdateCharacterFormat.CharactersToActuallyPrint,
+                    CharacterCode.RequestAtTimeOfSetting)
+            let setParameters =
+                PrintCharacterString.RequestResponseToSetCommand(parameters.Value)
+            let struct (response, error) =
+                Commands.SetPrintCharacterString(connection, setParameters)
+            Expect.stringContains response "FS" (getErrorString error)
+
+        testCase "Setting the print character string with ASCII code" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.SetPrintCharacterStringAsciiCode(
+                    connection, 1, [| struct (1, "test") |])
+            Expect.stringContains response "H2" (getErrorString error)
+
+        testCase "Changing the current character string in operation" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.ChangeCurrentCharacterStringInOperation(
+                    connection, 1, CharacterCode.Ascii, "Up to 240 characters")
+            Expect.stringContains response "BK" (getErrorString error)
+
+        testCase "Setting the counter conditions" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestCounterConditions(connection, 1, string 1)
+            let struct (response, error) =
+                Commands.SetCounterConditions(connection, parameters.Value)
+            Expect.stringContains response "CO" (getErrorString error)
+
+        testCase "Setting the current value for the counter's repeat count" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestCurrentRepeatCountValueForCounter(
+                    connection, 1, string 1)
+            let struct (response, error) =
+                Commands.SetCurrentRepeatCountValueForCounter(connection, parameters.Value)
+            Expect.stringContains response "CQ" (getErrorString error)
+
+        testCase "Setting the current counter value" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestCurrentCounterValue(
+                    connection, 1, string 1)
+            let struct (response, error) =
+                Commands.SetCurrenCounterValue(connection, parameters.Value)
+            Expect.stringContains response "CM" (getErrorString error)
+
+        testCase "Clearing the current counter value" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.ClearCurrentCounterValue(
+                    connection, 1, string 1)
+            Expect.stringContains response "DR" (getErrorString error)
+
+        testCase "Setting the barcode character string" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestBarcodeCharacterString(connection, 1, 1)
+            let struct (response, error) =
+                Commands.SetBarcodeCharacterString(connection, parameters.Value)
+            Expect.stringContains response "BE" (getErrorString error)
+
+        testCase "Setting the current barcode character string in operation" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.SetCurrentBarcodeCharacterStringInOperation(
+                    connection, 1, "System.String.Empty")
+            Expect.stringContains response "BH" (getErrorString error)
+
+        testCase "Setting the barcode conditions" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestBarcodeConditions(
+                    connection, 1, 1)
+            let struct (response, error) =
+                Commands.SetBarcodeConditions(connection, parameters.Value)
+            Expect.stringContains response "B0" (getErrorString error)
+
+        testCase "Setting the current program number" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (programNumber, _) =
+                Commands.RequestCurrentProgramNumber(connection)
+            let struct (response, error) =
+                Commands.SetCurrentProgramNumber(connection, programNumber.Value)
+            Expect.stringContains response "FW" (getErrorString error)
+
+        testCase "Setting the group printing number" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (groupNumber, _) =
+                Commands.RequestGroupPrintingNumber(connection)
+            let struct (response, error) =
+                Commands.SetGroupPrintingNumber(connection, groupNumber.Value)
+            Expect.stringContains response "FF" (getErrorString error)
+
+        testCase "Clearing the communication buffer" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.ClearCommunicationBuffer(connection)
+            Expect.stringContains response "KX" (getErrorString error)
+
+        testCase "Setting the communication buffer (OFF)" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.SetCommunicationBuffer(connection, CommunicationBuffer.Off)
+            Expect.stringContains response "KV" (getErrorString error)
+
+        testCase "Setting the guide LED (OFF)" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.SetGuideLedStatus(connection, GuideLedStatus.Off)
+            Expect.stringContains response "GL" (getErrorString error)
+
+        testCase "Setting the printed counters" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestPrintedCounters(connection, 1)
+            let struct (printedCounterNumber, printedCount) = parameters.Value
+            let struct (response, error) =
+                Commands.SetPrintedCounters(
+                    connection,
+                    printedCounterNumber,
+                    printedCount)
+            Expect.stringContains response "KG" (getErrorString error)
+
+        testCase "Setting the current date and time" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestCurrentDateTime(connection)
+            let struct (response, error) =
+                Commands.SetCurrentDateTime(connection, parameters.Value)
+            Expect.stringContains response "DA" (getErrorString error)
+
+        testCase "Setting the hold date and time" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestHoldDateTime(connection)
+            let struct (response, error) =
+                Commands.SetHoldDateTime(connection, parameters.Value)
+            Expect.stringContains response "DH" (getErrorString error)
+
+        testCase "Hold date and time, setting the time type" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (timeType, _) =
+                Commands.RequestTimeType(connection)
+            let struct (response, error) =
+                Commands.SetTimeType(connection, timeType.Value)
+            Expect.stringContains response "DT" (getErrorString error)
+
+        testCase "Setting the shift time" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestShiftTime(connection)
+            let struct (response, error) =
+                Commands.SetShiftTime(connection, parameters.Value)
+            Expect.stringContains response "DW" (getErrorString error)
     ]
