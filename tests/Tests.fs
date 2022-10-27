@@ -154,6 +154,52 @@ let settingTests =
             let struct (response, error) =
                 Commands.SetBarcodeConditions(connection, parameters.Value)
             Expect.stringContains response "B0" (getErrorString error)
+
+        testCase "Setting the current program number" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (programNumber, _) =
+                Commands.RequestCurrentProgramNumber(connection)
+            let struct (response, error) =
+                Commands.SetCurrentProgramNumber(connection, programNumber.Value)
+            Expect.stringContains response "FW" (getErrorString error)
+
+        testCase "Setting the group printing number" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (groupNumber, _) =
+                Commands.RequestGroupPrintingNumber(connection)
+            let struct (response, error) =
+                Commands.SetGroupPrintingNumber(connection, groupNumber.Value)
+            Expect.stringContains response "FF" (getErrorString error)
+
+        testCase "Clearing the communication buffer" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.ClearCommunicationBuffer(connection)
+            Expect.stringContains response "KX" (getErrorString error)
+
+        testCase "Setting the communication buffer (OFF)" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.SetCommunicationBuffer(connection, CommunicationBuffer.Off)
+            Expect.stringContains response "KV" (getErrorString error)
+
+        testCase "Setting the guide LED (OFF)" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.SetGuideLedStatus(connection, GuideLedStatus.Off)
+            Expect.stringContains response "GL" (getErrorString error)
+
+        testCase "Setting the printed counters" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestPrintedCounters(connection, 1)
+            let struct (printedCounterNumber, printedCount) = parameters.Value
+            let struct (response, error) =
+                Commands.SetPrintedCounters(
+                    connection,
+                    printedCounterNumber,
+                    printedCount)
+            Expect.stringContains response "KG" (getErrorString error)
     ]
 
 [<Tests>]
