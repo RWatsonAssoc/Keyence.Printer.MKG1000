@@ -59,7 +59,7 @@ let settingTests =
                 Commands.ConfigureLineSettingsAndPrintAdjustment(
                     connection,
                     parameters.Value)
-            Expect.isTrue (notEmpty response) (getOutputString parameters error)
+            Expect.stringContains response "FM" (getErrorString error)
 
         testCase "Setting the Message conditions" <| fun _ ->
             let connection = EthernetConnection(ipString)
@@ -67,7 +67,7 @@ let settingTests =
                 Commands.RequestMessageConditions(connection, 1, 1)
             let struct (response, error) =
                 Commands.SetMessageConditions(connection, parameters.Value)
-            Expect.isTrue (notEmpty response) (getOutputString parameters error)
+            Expect.stringContains response "F1" (getErrorString error)
 
         testCase "Setting the print character string" <| fun _ ->
             let connection = EthernetConnection(ipString)
@@ -82,7 +82,78 @@ let settingTests =
                 PrintCharacterString.RequestResponseToSetCommand(parameters.Value)
             let struct (response, error) =
                 Commands.SetPrintCharacterString(connection, setParameters)
-            Expect.isTrue (notEmpty response) (getOutputString parameters error)
+            Expect.stringContains response "FS" (getErrorString error)
+
+        testCase "Setting the print character string with ASCII code" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.SetPrintCharacterStringAsciiCode(
+                    connection, 1, [| struct (1, "test") |])
+            Expect.stringContains response "H2" (getErrorString error)
+
+        testCase "Changing the current character string in operation" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.ChangeCurrentCharacterStringInOperation(
+                    connection, 1, CharacterCode.Ascii, "Up to 240 characters")
+            Expect.stringContains response "BK" (getErrorString error)
+
+        testCase "Setting the counter conditions" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestCounterConditions(connection, 1, string 1)
+            let struct (response, error) =
+                Commands.SetCounterConditions(connection, parameters.Value)
+            Expect.stringContains response "CO" (getErrorString error)
+
+        testCase "Setting the current value for the counter's repeat count" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestCurrentRepeatCountValueForCounter(
+                    connection, 1, string 1)
+            let struct (response, error) =
+                Commands.SetCurrentRepeatCountValueForCounter(connection, parameters.Value)
+            Expect.stringContains response "CQ" (getErrorString error)
+
+        testCase "Setting the current counter value" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestCurrentCounterValue(
+                    connection, 1, string 1)
+            let struct (response, error) =
+                Commands.SetCurrenCounterValue(connection, parameters.Value)
+            Expect.stringContains response "CM" (getErrorString error)
+
+        testCase "Clearing the current counter value" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.ClearCurrentCounterValue(
+                    connection, 1, string 1)
+            Expect.stringContains response "DR" (getErrorString error)
+
+        testCase "Setting the barcode character string" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestBarcodeCharacterString(connection, 1, 1)
+            let struct (response, error) =
+                Commands.SetBarcodeCharacterString(connection, parameters.Value)
+            Expect.stringContains response "BE" (getErrorString error)
+
+        testCase "Setting the current barcode character string in operation" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (response, error) =
+                Commands.SetCurrentBarcodeCharacterStringInOperation(
+                    connection, 1, "System.String.Empty")
+            Expect.stringContains response "BH" (getErrorString error)
+
+        testCase "Setting the barcode conditions" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestBarcodeConditions(
+                    connection, 1, 1)
+            let struct (response, error) =
+                Commands.SetBarcodeConditions(connection, parameters.Value)
+            Expect.stringContains response "B0" (getErrorString error)
     ]
 
 [<Tests>]
