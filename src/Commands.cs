@@ -141,7 +141,7 @@ public static class Commands
         return SendCommand(connection, identificationCode: "FZ", parameters);
     }
 
-    public static (string? Response, ErrorResponse? Error) ConfigureMessageConditions(
+    public static (string? Response, ErrorResponse? Error) SetMessageConditions(
         Connection connection,
         MessageConditionsParameters messageConditionsParameters) =>
         SendCommand(

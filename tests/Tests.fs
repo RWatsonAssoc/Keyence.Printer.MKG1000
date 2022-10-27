@@ -32,6 +32,9 @@ let private getErrorString (error : System.Nullable<ErrorResponse>) : string =
 
 let private ipString = "172.16.16.52"
 
+let private notEmpty (s : string) : bool =
+    not <| System.String.IsNullOrWhiteSpace(s)
+
 [<Tests>]
 let tests =
     testSequencedGroup "Avoid System.Net.Sockets.SocketException" <| testList "tests" [
@@ -39,7 +42,47 @@ let tests =
             let connection = EthernetConnection(ipString)
             let struct (response, _) =
                 Commands.ResetErrors(connection)
-            Expect.isTrue (not <| System.String.IsNullOrWhiteSpace(response)) "Reset Errors"
+            Expect.isTrue (notEmpty response) "Reset Errors"
+    ]
+
+[<PTests>]
+let settingTests =
+    testSequencedGroup "Avoid System.Net.Sockets.SocketException" <| testList "Setting tests" [
+        testCase "Configuring line settings and print adjustmest" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestLineSettingsAndPrintAdjustment(
+                    connection,
+                    string 1,
+                    CharacterCode.RequestAtTimeOfSetting)
+            let struct (response, error) =
+                Commands.ConfigureLineSettingsAndPrintAdjustment(
+                    connection,
+                    parameters.Value)
+            Expect.isTrue (notEmpty response) (getOutputString parameters error)
+
+        testCase "Setting the Message conditions" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestMessageConditions(connection, 1, 1)
+            let struct (response, error) =
+                Commands.SetMessageConditions(connection, parameters.Value)
+            Expect.isTrue (notEmpty response) (getOutputString parameters error)
+
+        testCase "Setting the print character string" <| fun _ ->
+            let connection = EthernetConnection(ipString)
+            let struct (parameters, _) =
+                Commands.RequestPrintCharacterString(
+                    connection,
+                    1,
+                    1,
+                    UpdateCharacterFormat.CharactersToActuallyPrint,
+                    CharacterCode.RequestAtTimeOfSetting)
+            let setParameters =
+                PrintCharacterString.RequestResponseToSetCommand(parameters.Value)
+            let struct (response, error) =
+                Commands.SetPrintCharacterString(connection, setParameters)
+            Expect.isTrue (notEmpty response) (getOutputString parameters error)
     ]
 
 [<Tests>]
@@ -57,7 +100,7 @@ let requestingTests =
                 Commands.RequestSystemStatus(connection)
             Expect.isTrue systemStatus.HasValue (getOutputString systemStatus error)
 
-        testCase "Requesting the line settings and print adjustmest" <| fun _ ->
+        testCase "Requesting line settings and print adjustmest" <| fun _ ->
             let connection = EthernetConnection(ipString)
             let struct (parameters, error) =
                 Commands.RequestLineSettingsAndPrintAdjustment(

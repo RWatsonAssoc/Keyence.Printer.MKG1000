@@ -49,6 +49,17 @@ public readonly record struct PrintCharacterStringRequestResponseParameters(
 
 public static class PrintCharacterString
 {
+    public static PrintCharacterStringSetCommandParameters
+        RequestResponseToSetCommand(
+            PrintCharacterStringRequestResponseParameters parameters)
+    {
+        return new PrintCharacterStringSetCommandParameters(
+            ProgramNumber: parameters.ProgramNumber,
+            MessageNumber: parameters.MessageNumber,
+            CharacterCode: parameters.CharacterCode,
+            CharacterStringData: parameters.CharacterStringData);
+    }
+
     public static PrintCharacterStringRequestResponseParameters CreatePrintCharacterStringRequestResponseParametersFromResponseString(string rawResponseString)
     {
         string[] split = rawResponseString.Split(',');
