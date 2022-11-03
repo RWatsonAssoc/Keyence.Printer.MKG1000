@@ -225,13 +225,13 @@ public static class LineSettingsAndPrintAdjustment
                 $"Character Height Adjustment Invalid (50 to 200): {characterHeightAdjustment}");
         }
 
-        if (characterWidthAdjustment is >= 70 and <= 500)
+        if (characterWidthAdjustment is >= 50 and <= 500)
         {
             _characterWidthAdjustment = characterWidthAdjustment;
         }
         else
         {
-            throw new ArgumentException($"Character Width Adjustment Invalid (70 to 500): {characterWidthAdjustment}");
+            throw new ArgumentException($"Character Width Adjustment Invalid (50 to 500): {characterWidthAdjustment}");
         }
 
         if (ignoreTriggersLessThan is >= 0 and <= 9999)
