@@ -215,23 +215,23 @@ public static class LineSettingsAndPrintAdjustment
             throw new ArgumentException($"Message Interval Invalid (10 to 99999): {messageInterval}");
         }
 
-        if (characterHeightAdjustment is >= 50 and <= 200)
+        if (characterHeightAdjustment is >= 40 and <= 200)
         {
             _characterHeightAdjustment = characterHeightAdjustment;
         }
         else
         {
             throw new ArgumentException(
-                $"Character Height Adjustment Invalid (50 to 200): {characterHeightAdjustment}");
+                $"Character Height Adjustment Invalid (40 to 200): {characterHeightAdjustment}");
         }
 
-        if (characterWidthAdjustment is >= 50 and <= 500)
+        if (characterWidthAdjustment is >= 40 and <= 500)
         {
             _characterWidthAdjustment = characterWidthAdjustment;
         }
         else
         {
-            throw new ArgumentException($"Character Width Adjustment Invalid (50 to 500): {characterWidthAdjustment}");
+            throw new ArgumentException($"Character Width Adjustment Invalid (40 to 500): {characterWidthAdjustment}");
         }
 
         if (ignoreTriggersLessThan is >= 0 and <= 9999)
