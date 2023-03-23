@@ -14,6 +14,8 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT OR Apache-2.0</PackageLicenseExpression>
     <PackageVersion>1.0.0</PackageVersion>
+    <PackageDescription>.NET 6 library to simplify using the Keyence MK-G1000 continuous inkjet printer</PackageDescription>
+    <RepositoryUrl>https://github.com/RWatsonAssoc/Keyence.Printer.MKG1000</RepositoryUrl>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
