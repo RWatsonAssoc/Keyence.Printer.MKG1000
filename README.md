@@ -8,7 +8,7 @@ View and/or download the "MK-G1000 Series Communication Interface User's Manual"
 
 <a href="http://www.rwatsonassoc.com">R. Watson & Associates, Inc.</a> is an American consulting & contracting company dealing with anything related to Keyence.Printer.MKG1000; development, support and customer success.
 
-Don't hesitate to <a href="http://www.rwatsonassoc.com/Contact.aspx">contact us</a> if you're building something large, in need of advice or having other business inquiries in mind. We'll figure out what's best for both parties and make sure you're not falling into common pitfalls.
+Don't hesitate to <a href="https://rwatsonassoc.com/contact">contact us</a> if you're building something large, in need of advice or having other business inquiries in mind. We'll figure out what's best for both parties and make sure you're not falling into common pitfalls.
 
 ### Permissively licensed
 
